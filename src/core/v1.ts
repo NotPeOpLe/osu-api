@@ -50,7 +50,7 @@ export class APIv1 extends APIClient {
     };
     this.setUserType(params);
     const [users] = UserSchema.array().parse(
-      await this.request("/get_user", "GET", params)
+      await this.request("/get_user", { params })
     );
     return users;
   }
@@ -59,7 +59,7 @@ export class APIv1 extends APIClient {
     const params = getBeatmapParamsSchema.parse(options);
     if (params) this.setUserType(params);
     return BeatmapSchema.array().parse(
-      await this.request("/get_beatmaps", "GET", params)
+      await this.request("/get_beatmaps", { params })
     );
   }
 
@@ -67,7 +67,7 @@ export class APIv1 extends APIClient {
     const params = getScoresParamsSchema.parse(options);
     this.setUserType(params);
     return ScoreSchema.array().parse(
-      await this.request("/get_scores", "GET", params)
+      await this.request("/get_scores", { params })
     );
   }
 
@@ -75,7 +75,7 @@ export class APIv1 extends APIClient {
     const params = getUserScoreParamsSchema.parse(options);
     this.setUserType(params);
     return UserScoreSchema.array().parse(
-      await this.request("/get_user_best", "GET", params)
+      await this.request("/get_user_best", { params })
     );
   }
 
@@ -83,19 +83,19 @@ export class APIv1 extends APIClient {
     const params = getUserScoreParamsSchema.parse(options);
     this.setUserType(params);
     return UserScoreSchema.array().parse(
-      await this.request("/get_user_recent", "GET", params)
+      await this.request("/get_user_recent", { params })
     );
   }
 
   public async getMatch(mp: number) {
-    return MatchSchema.parse(await this.request("/get_match", "GET", { mp }));
+    return MatchSchema.parse(
+      await this.request("/get_match", { params: { mp } })
+    );
   }
 
   public async getReplay(options: GetReplayParams) {
     const params = getReplayParamsSchema.parse(options);
     this.setUserType(params);
-    return ReplaySchema.parse(
-      await this.request("/get_replay", "GET", options)
-    );
+    return ReplaySchema.parse(await this.request("/get_replay", { params }));
   }
 }
