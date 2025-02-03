@@ -36,12 +36,6 @@ export class APIv1 extends APIClient {
     super(token, BASE_URL, "query");
   }
 
-  private setUserType(params: { u?: string | number; type?: string }) {
-    if (params.u && !params.type) {
-      params.type = typeof params.u === "string" ? "string" : "id";
-    }
-  }
-
   getUser(
     userId: number,
     options?: GetUserParamsWithoutUser
