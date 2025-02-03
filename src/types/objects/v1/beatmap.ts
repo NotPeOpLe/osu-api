@@ -69,10 +69,10 @@ const getBeatmapParamsInterface = z
     mods: z.number(),
     since: z.string().date(),
   })
-  .partial()
-  .optional();
+  .partial();
 
 export const getBeatmapParamsSchema = getBeatmapParamsInterface
+  .optional()
   .transform((data) => ({
     b: data?.beatmapId,
     s: data?.beatmapSetId,
@@ -86,22 +86,9 @@ export const getBeatmapParamsSchema = getBeatmapParamsInterface
   }))
   .transform(parseUserType);
 
-// export const getBeatmapParamsSchema = z
-//   .object({
-//     b: z.number(),
-//     s: z.number(),
-//     u: z.number().or(z.string()),
-//     m: z.nativeEnum(GameMode),
-//     a: z.boolean(),
-//     h: z.string(),
-//     limit: z.number(),
-//     mods: z.number(),
-//     since: z.string().date(),
-//     type: z.string(),
-//   })
-//   .partial()
-//   .optional();
-
 export type Beatmap = z.infer<typeof BeatmapSchema>;
 export type GetBeatmapParams = z.infer<typeof getBeatmapParamsInterface>;
-export type GetBeatmapParamsParsed = z.infer<typeof getBeatmapParamsSchema>;
+export type GetBeatmapParamsWithoutSpecParams = Omit<
+  GetBeatmapParams,
+  "beatmapId" | "beatmapSetId" | "user" | "since"
+>;

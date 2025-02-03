@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { GameMode } from "./osu";
 import { dateUTC } from "@/utils/zod-utils";
+import { parseUserType } from "./utils";
 
 export const UserEventSchema = z.object({
   display_html: z.string(),
@@ -40,15 +41,24 @@ export const UserSchema = z
     avatar_url: () => `https://a.ppy.sh/${data.user_id}`,
   }));
 
-export const GetUserParamsSchema = z
+const GetUserParamsInterface = z
   .object({
+    user: z.union([z.string(), z.coerce.number()]),
     mode: z.nativeEnum(GameMode),
     event_days: z.coerce.number().min(1).max(31),
   })
-  .partial()
-  .optional();
+  .partial();
 
-export type GetUserParams = z.infer<typeof GetUserParamsSchema>;
+export const GetUserParamsSchema = GetUserParamsInterface.optional()
+  .transform((data) => ({
+    u: data?.user,
+    m: data?.mode,
+    event_days: data?.event_days,
+  }))
+  .transform(parseUserType);
+
+export type GetUserParams = z.infer<typeof GetUserParamsInterface>;
+export type GetUserParamsWithoutUser = Omit<GetUserParams, "user">;
 
 export type User = z.infer<typeof UserSchema>;
 

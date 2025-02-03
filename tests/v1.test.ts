@@ -30,34 +30,35 @@ describe("API v1", () => {
   });
 
   test("Get beatmapset", async () => {
-    const beatmaps = await api.getBeatmaps({ s: 773330 });
+    const beatmaps = await api.getBeatmaps({ beatmapSetId: 773330 });
     expect(beatmaps.length).toBe(11);
     expect(beatmaps[0].title).toBe("Happy Time wa Owaranai");
     expect(beatmaps[0].artist_unicode).toBe("七森中☆ごらく部");
   });
 
   test("Get beatmap", async () => {
-    const [beatmap] = await api.getBeatmaps({ b: 4080382 });
+    const beatmap = await api.getBeatmap(4080382, { mode: GameMode.Osu });
     expect(beatmap.title_unicode).toBe("焼ケ鮭");
   });
 
   test("Get beatmap scores", async () => {
-    const scores = await api.getScores({ b: 3815421 });
+    const scores = await api.getScores(3815421);
     expect(scores.length).toBeGreaterThan(0);
   });
   test("Get beatmap user scores", async () => {
-    const scores = await api.getScores({ b: 3815421, u: 6008293 });
+    const scores = await api.getScores(3815421, { user: 6008293 });
     expect(scores.length).toBeGreaterThan(0);
   });
 
   test("Get user best scores", async () => {
-    const scores = await api.getUserBest({ u: 6008293 });
+    const scores = await api.getUserBest(6008293);
     expect(scores.length).toBeGreaterThan(0);
   });
 
   test("Get user recent scores", async () => {
-    const scores = await api.getUserRecent({ u: 6008293 });
-    expect(scores.length).toBe(0);
+    const scores = await api.getUserRecent(6008293);
+    expect(scores.length).toBeGreaterThan(0);
+    console.log(scores);
   });
 
   // test("Get match", async () => {

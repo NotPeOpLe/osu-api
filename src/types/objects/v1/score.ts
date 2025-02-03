@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { GameMode } from "./osu";
 import { dateUTC } from "@/utils/zod-utils";
+import { parseUserType } from "./utils";
 
 export const ScoreSchema = z.object({
   score_id: z.coerce.number(),
@@ -30,25 +31,44 @@ export const UserScoreSchema = ScoreSchema.extend({
   pp: true,
 });
 
-export const getScoresParamsSchema = z.object({
-  b: z.number(),
-  u: z.number().or(z.string()).optional(),
-  m: z.nativeEnum(GameMode).optional(),
+export const getScoresParamsInterface = z.object({
+  beatmapId: z.number(),
+  user: z.number().or(z.string()).optional(),
+  mode: z.nativeEnum(GameMode).optional(),
   mods: z.number().optional(),
-  type: z.string().optional(),
   limit: z.number().optional(),
 });
 
-export const getUserScoreParamsSchema = getScoresParamsSchema
-  .omit({
-    b: true,
-    mods: true,
-  })
-  .required({
-    u: true,
-  });
+export const getScoresParamsSchema = getScoresParamsInterface
+  .partial()
+  .optional()
+  .transform((data) => ({
+    b: data?.beatmapId,
+    u: data?.user,
+    m: data?.mode,
+    mods: data?.mods,
+    limit: data?.limit,
+  }))
+  .transform(parseUserType);
 
-export type GetScoresParams = z.infer<typeof getScoresParamsSchema>;
-export type GetUserScoreParams = z.infer<typeof getUserScoreParamsSchema>;
+const getUserScoreParamsInterface = getScoresParamsInterface.omit({
+  beatmapId: true,
+  mods: true,
+});
+
+export const getUserScoreParamsSchema = getUserScoreParamsInterface
+  .partial()
+  .optional()
+  .transform((data) => ({
+    u: data?.user,
+    m: data?.mode,
+    limit: data?.limit,
+  }))
+  .transform(parseUserType);
+
+export type GetScoresParams = z.infer<typeof getScoresParamsInterface>;
+export type GetScoresOptions = Omit<GetScoresParams, "beatmapId">;
+export type GetUserScoreParams = z.infer<typeof getUserScoreParamsInterface>;
+export type GetUserScoreOptions = Omit<GetUserScoreParams, "user">;
 export type Score = z.infer<typeof ScoreSchema>;
 export type UserScore = z.infer<typeof UserScoreSchema>;

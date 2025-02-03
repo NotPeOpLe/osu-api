@@ -1,19 +1,21 @@
 import { ofetch } from "ofetch";
-import { BASE_URL } from "./const";
 
 export class APIClient {
   protected request;
 
-  constructor(token: string, version: 1 | 2) {
+  constructor(token: string, baseURL: string, tokenType: "bearer" | "query") {
     this.request = ofetch.create({
-      baseURL: `${BASE_URL}`,
+      baseURL,
       headers:
-        version === 2
+        tokenType === "bearer"
           ? {
               Authorization: `Bearer ${token}`,
             }
           : undefined,
-      params: version === 1 ? { k: token } : undefined,
+      params: tokenType === "query" ? { k: token } : undefined,
+      onResponse: (ctx) => {
+        console.debug(ctx.response._data);
+      },
     });
   }
 }
