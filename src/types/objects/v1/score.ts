@@ -22,8 +22,12 @@ export const ScoreSchema = z.object({
   replay_available: z.coerce.number().transform(Boolean),
 });
 
-export const UserScoreSchema = ScoreSchema.omit({
+export const UserScoreSchema = ScoreSchema.extend({
+  score_id: z.coerce.number().nullable(),
+}).omit({
   username: true,
+  replay_available: true,
+  pp: true,
 });
 
 export const getScoresParamsSchema = z.object({
