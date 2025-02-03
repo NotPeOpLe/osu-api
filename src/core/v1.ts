@@ -57,10 +57,16 @@ export class APIv1 extends APIClient {
 
   public async getBeatmaps(options: GetBeatmapParams) {
     const params = getBeatmapParamsSchema.parse(options);
-    if (params) this.setUserType(params);
     return BeatmapSchema.array().parse(
       await this.request("/get_beatmaps", { params })
     );
+  }
+
+  public async getBeatmapById(
+    beatmapId: number,
+    options: Omit<GetBeatmapParams, "beatmapId">
+  ) {
+    return (await this.getBeatmaps({ beatmapId, ...options }))[0];
   }
 
   public async getScores(options: GetScoresParams) {

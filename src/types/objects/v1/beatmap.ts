@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { GameMode, ApprovedType, Language, Genre } from "./osu";
 import { dateUTC } from "@/utils/zod-utils";
+import { parseUserType } from "./utils";
 
 export const BeatmapSchema = z
   .object({
@@ -56,21 +57,51 @@ export const BeatmapSchema = z
       `https://b.ppy.sh/thumb/${data.beatmapset_id}l.jpg`,
   }));
 
-export const getBeatmapParamsSchema = z
+const getBeatmapParamsInterface = z
   .object({
-    b: z.number(),
-    s: z.number(),
-    u: z.number().or(z.string()),
-    m: z.nativeEnum(GameMode),
-    a: z.boolean(),
-    h: z.string(),
+    beatmapId: z.number(),
+    beatmapSetId: z.number(),
+    user: z.number().or(z.string()),
+    mode: z.nativeEnum(GameMode),
+    converted: z.boolean(),
+    hash: z.string(),
     limit: z.number(),
     mods: z.number(),
     since: z.string().date(),
-    type: z.string(),
   })
   .partial()
   .optional();
 
+export const getBeatmapParamsSchema = getBeatmapParamsInterface
+  .transform((data) => ({
+    b: data?.beatmapId,
+    s: data?.beatmapSetId,
+    u: data?.user,
+    m: data?.mode,
+    a: data?.converted,
+    h: data?.hash,
+    limit: data?.limit,
+    mods: data?.mods,
+    since: data?.since,
+  }))
+  .transform(parseUserType);
+
+// export const getBeatmapParamsSchema = z
+//   .object({
+//     b: z.number(),
+//     s: z.number(),
+//     u: z.number().or(z.string()),
+//     m: z.nativeEnum(GameMode),
+//     a: z.boolean(),
+//     h: z.string(),
+//     limit: z.number(),
+//     mods: z.number(),
+//     since: z.string().date(),
+//     type: z.string(),
+//   })
+//   .partial()
+//   .optional();
+
 export type Beatmap = z.infer<typeof BeatmapSchema>;
-export type GetBeatmapParams = z.infer<typeof getBeatmapParamsSchema>;
+export type GetBeatmapParams = z.infer<typeof getBeatmapParamsInterface>;
+export type GetBeatmapParamsParsed = z.infer<typeof getBeatmapParamsSchema>;
