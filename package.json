@@ -10,8 +10,7 @@
     "dev": "rollup -w -c",
     "build": "rollup -c",
     "test": "jest",
-    "test2": "tsx ./tests/test",
-    "prepare": "husky install"
+    "test2": "tsx ./tests/test"
   },
   "keywords": [],
   "author": "",
