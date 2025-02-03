@@ -31,4 +31,4 @@ export const getReplayParamsSchema = getReplayParamsInterface
 
 export type GetReplayParams = z.infer<typeof getReplayParamsInterface>;
 export type GetReplayOptions = Omit<GetReplayParams, "beatmapId" | "user">;
-export const Replay = ReplaySchema;
+export type Replay = z.infer<typeof ReplaySchema>;

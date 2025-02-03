@@ -65,3 +65,5 @@ export const MatchSchema = z.object({
 });
 
 export const getMatchParamsSchema = z.number();
+
+export type Match = z.infer<typeof MatchSchema>;

@@ -20,12 +20,14 @@ import {
   type GetScoresOptions,
   type GetUserScoreParams,
   type GetUserScoreOptions,
+  type UserScore,
 } from "@/types/objects/v1/score";
-import { MatchSchema } from "@/types/objects/v1/match";
+import { MatchSchema, type Match } from "@/types/objects/v1/match";
 import {
   getReplayParamsSchema,
   ReplaySchema,
   type GetReplayOptions,
+  type Replay,
 } from "@/types/objects/v1/replay";
 import { BASE_URL } from "./const";
 
@@ -106,27 +108,43 @@ export class APIv1 extends APIClient {
     );
   }
 
+  getUserBest(
+    userId: number,
+    options?: GetUserScoreOptions
+  ): Promise<UserScore[]>;
+  getUserBest(
+    username: string,
+    options?: GetUserScoreOptions
+  ): Promise<UserScore[]>;
   public async getUserBest(
     user: string | number,
     options?: GetUserScoreOptions
-  ) {
+  ): Promise<UserScore[]> {
     const params = getUserScoreParamsSchema.parse({ user, ...options });
     return UserScoreSchema.array().parse(
       await this.request("/get_user_best", { params })
     );
   }
 
+  getUserRecent(
+    userId: number,
+    options?: GetUserScoreParams
+  ): Promise<UserScore[]>;
+  getUserRecent(
+    username: string,
+    options?: GetUserScoreParams
+  ): Promise<UserScore[]>;
   public async getUserRecent(
     user: string | number,
     options?: GetUserScoreParams
-  ) {
+  ): Promise<UserScore[]> {
     const params = getUserScoreParamsSchema.parse({ user, ...options });
     return UserScoreSchema.array().parse(
       await this.request("/get_user_recent", { params })
     );
   }
 
-  public async getMatch(matchId: number) {
+  public async getMatch(matchId: number): Promise<Match> {
     return MatchSchema.parse(
       await this.request("/get_match", { params: { mp: matchId } })
     );
@@ -136,9 +154,8 @@ export class APIv1 extends APIClient {
     beatmapId: number,
     user: string | number,
     options?: GetReplayOptions
-  ) {
+  ): Promise<Replay> {
     const params = getReplayParamsSchema.parse({ beatmapId, user, ...options });
-    this.setUserType(params);
     return ReplaySchema.parse(await this.request("/get_replay", { params }));
   }
 }
