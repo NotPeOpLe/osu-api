@@ -30,15 +30,15 @@ test("Get user with mode", async () => {
 })
 
 test("Get beatmapset", async () => {
-  const beatmaps = await api.getBeatmaps({ beatmapSetId: 773330 })
+  const beatmaps = await api.getBeatmapSet(773330)
   expect(beatmaps.length).toBe(11)
-  expect(beatmaps[0].title).toBe("Happy Time wa Owaranai")
-  expect(beatmaps[0].artist_unicode).toBe("七森中☆ごらく部")
+  expect(beatmaps[0]!.title).toBe("Happy Time wa Owaranai")
+  expect(beatmaps[0]!.artist_unicode).toBe("七森中☆ごらく部")
 })
 
 test("Get beatmap", async () => {
   const beatmap = await api.getBeatmap(4080382, { mode: GameMode.Osu })
-  expect(beatmap.title_unicode).toBe("焼ケ鮭")
+  expect(beatmap!.title_unicode).toBe("焼ケ鮭")
 })
 
 test("Get beatmap scores", async () => {
