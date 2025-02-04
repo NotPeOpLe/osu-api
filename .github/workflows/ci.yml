@@ -38,4 +38,4 @@ jobs:
         run: npm run check-format
 
       - name: Test
-        run: OSU_API_KEY=${{ secrets.OSU_API_KEY }} npm test
+        run: OSU_API_KEY=123445 npm test
