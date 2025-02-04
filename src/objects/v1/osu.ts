@@ -106,3 +106,16 @@ export enum Mods {
     KeyMod,
   ScoreIncreaseMods = Hidden | HardRock | DoubleTime | Flashlight | FadeIn,
 }
+
+export const resultRank = [
+  "F",
+  "D",
+  "C",
+  "B",
+  "A",
+  "S",
+  "X",
+  "SH",
+  "XH",
+] as const
+type ResultRank = (typeof resultRank)[number]

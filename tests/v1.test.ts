@@ -41,34 +41,40 @@ test("Get beatmap", async () => {
   expect(beatmap!.title_unicode).toBe("焼ケ鮭")
 })
 
+test("Get user beatmaps", async () => {
+  const beatmaps = await api.getUserBeatmaps(6008293)
+  expect(beatmaps.length).toBeGreaterThan(27)
+})
+
 test("Get beatmap scores", async () => {
   const scores = await api.getScores(3815421)
-  expect(scores.length).toBeGreaterThan(0)
+  expect(scores.length).toBeGreaterThan(50)
 })
 test("Get beatmap user scores", async () => {
   const scores = await api.getScores(3815421, { user: 6008293 })
-  expect(scores.length).toBeGreaterThan(0)
+  expect(scores.length).toBeGreaterThan(1)
 })
 
 test("Get user best scores", async () => {
   const scores = await api.getUserBest(6008293)
-  expect(scores.length).toBeGreaterThan(0)
+  expect(scores.length).toBeGreaterThan(100)
 })
 
 test("Get user recent scores", async () => {
   const scores = await api.getUserRecent(6008293)
   expect(scores.length).toBeGreaterThan(0)
-  console.log(scores)
 })
 
-// test("Get match", async () => {
-//   const match = await api.getMatch(12345);
-//   expect(match).toBeDefined();
-//   expect(match.match.match_id).toBe(12345);
-// });
+test("Get match", async () => {
+  const match = await api.getMatch(112703107)
+  console.dir(match.match)
+  console.dir(match.games)
+  expect(match).toBeDefined()
+  expect(match.match.match_id).toBe(112703107)
+})
 
-// test("Get replay", async () => {
-//   const replay = await api.getReplay({ b: 67890, u: 6008293 });
-//   expect(replay).toBeDefined();
-//   expect(replay.content).toBeDefined();
-// });
+test("Get replay", async () => {
+  const replay = await api.getReplay(4719384, 6008293)
+  expect(replay).toBeDefined()
+  expect(replay.content).toBeDefined()
+})

@@ -23,7 +23,7 @@ export enum ScoreMode {
 
 export const MatchScoreSchema = z.object({
   slot: z.coerce.number(),
-  team: z.nativeEnum(Team),
+  team: z.coerce.number().pipe(z.nativeEnum(Team)),
   user_id: z.coerce.number(),
   score: z.coerce.number(),
   maxcombo: z.coerce.number(),
@@ -36,7 +36,7 @@ export const MatchScoreSchema = z.object({
   countkatu: z.coerce.number(),
   perfect: z.coerce.number().transform(Boolean),
   pass: z.coerce.number().transform(Boolean),
-  enabled_mods: z.number().nullable(),
+  enabled_mods: z.coerce.number().nullable(),
 })
 
 export const MatchInfoSchema = z.object({
@@ -51,10 +51,10 @@ export const GameSchema = z.object({
   start_time: dateUTC,
   end_time: dateUTC.nullable(),
   beatmap_id: z.coerce.number(),
-  play_mode: z.nativeEnum(GameMode),
+  play_mode: z.coerce.number().pipe(z.nativeEnum(GameMode)),
   match_type: z.coerce.number(),
-  scoring_type: z.nativeEnum(ScoreMode),
-  team_type: z.nativeEnum(TeamMode),
+  scoring_type: z.coerce.number().pipe(z.nativeEnum(ScoreMode)),
+  team_type: z.coerce.number().pipe(z.nativeEnum(TeamMode)),
   mods: z.coerce.number(),
   scores: z.array(MatchScoreSchema),
 })

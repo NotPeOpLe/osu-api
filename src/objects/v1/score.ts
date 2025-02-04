@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { GameMode } from "./osu"
+import { GameMode, resultRank } from "./osu"
 import { dateUTC } from "@/utils/zod-utils"
 import { parseUserType } from "./utils"
 
@@ -18,7 +18,7 @@ export const ScoreSchema = z.object({
   enabled_mods: z.coerce.number(),
   user_id: z.coerce.number(),
   date: dateUTC,
-  rank: z.string(),
+  rank: z.enum(resultRank),
   pp: z.coerce.number(),
   replay_available: z.coerce.number().transform(Boolean),
 })
