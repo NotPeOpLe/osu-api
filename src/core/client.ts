@@ -80,7 +80,7 @@ export class Client {
    */
   getAccessToken(
     grantType: GrantType.ClientCredentials,
-    scope?: OAuthScopes[]
+    scope?: OAuthScopes[],
   ): Promise<ClientCredentialsToken>;
 
   /**
@@ -89,7 +89,7 @@ export class Client {
   getAccessToken(
     grantType: GrantType.AuthorizationCode,
     code: string,
-    scope?: OAuthScopes[]
+    scope?: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>;
 
   /**
@@ -100,13 +100,13 @@ export class Client {
   getAccessToken(
     grantType: GrantType.RefreshAccessToken,
     refresh_token: string,
-    scope?: OAuthScopes[]
+    scope?: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>;
 
   public async getAccessToken(
     grantType: GrantType,
     p1?: string | OAuthScopes[],
-    p2?: OAuthScopes[]
+    p2?: OAuthScopes[],
   ) {
     const body: AccessTokenRequestBody = {
       client_id: this.id,
