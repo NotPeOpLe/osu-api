@@ -13,9 +13,6 @@ export class APIClient {
             }
           : undefined,
       params: tokenType === "query" ? { k: token } : undefined,
-      onResponse: (ctx) => {
-        console.debug(ctx.response._data)
-      },
     })
   }
 }
