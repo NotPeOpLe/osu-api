@@ -6,15 +6,29 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "dev": "rollup -w -c",
     "build": "rollup -c",
     "test": "jest",
-    "test2": "tsx ./tests/test"
+    "test2": "tsx ./tests/test",
+    "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "osu"
+  ],
+  "author": "NotPeOpLe",
   "license": "ISC",
+  "repository": "https://github.com/NotPeOpLe/osu-api",
   "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a",
   "dependencies": {
     "ofetch": "^1.4.1",
