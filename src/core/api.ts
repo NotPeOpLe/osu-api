@@ -302,6 +302,34 @@ export class APIv1 extends BaseAPIClient {
   /**
    * 獲取回放信息。
    * @param beatmapId 譜面ID。
+   * @param userId 用戶ID。
+   * @param options 可選參數，包括：
+   * - `mode` (string): 遊戲模式。
+   * @returns 回放信息。
+   */
+  getReplay(
+    beatmapId: number,
+    userId: number,
+    options?: GetReplayOptions,
+  ): Promise<Replay>
+
+  /**
+   * 獲取回放信息。
+   * @param beatmapId 譜面ID。
+   * @param username 用戶名。
+   * @param options 可選參數，包括：
+   * - `mode` (string): 遊戲模式。
+   * @returns
+   */
+  getReplay(
+    beatmapId: number,
+    username: string,
+    options?: GetReplayOptions,
+  ): Promise<Replay>
+
+  /**
+   * 獲取回放信息。
+   * @param beatmapId 譜面ID。
    * @param user 用戶ID或用戶名。
    * @param options 可選參數，包括：
    * - `mode` (string): 遊戲模式。
