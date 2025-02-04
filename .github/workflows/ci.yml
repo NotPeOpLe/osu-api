@@ -25,7 +25,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run CI
-        run: npm run ci
+      - name: Test Build
+        run: npm run build
+
+      - name: check lint
+        run: npm run lint
+
+      - name: check exports
+        run: npm run check-exports
+
+      - name: check format
+        run: npm run check-format
+
+      - name: Test
+        run: npm test
         env:
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
