@@ -15,16 +15,9 @@
 要安裝依賴項，請運行：
 
 ```bash
-pnpm install
+npm install
 ```
 
-## 打包
-
-要打包項目，請運行：
-
-```bash
-pnpm build
-```
 
 ## 使用方法
 
