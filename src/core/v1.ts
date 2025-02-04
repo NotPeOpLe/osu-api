@@ -4,14 +4,14 @@ import {
   type Beatmap,
   type GetBeatmapParams,
   type GetBeatmapParamsWithoutSpecParams,
-} from "@/types/objects/v1/beatmap"
+} from "@/objects/v1/beatmap"
 import { APIClient } from "./base"
 import {
   type User,
   UserSchema,
   GetUserParamsSchema,
   type GetUserParamsWithoutUser,
-} from "@/types/objects/v1/user"
+} from "@/objects/v1/user"
 import {
   getScoresParamsSchema,
   getUserScoreParamsSchema,
@@ -21,14 +21,14 @@ import {
   type GetUserScoreParams,
   type GetUserScoreOptions,
   type UserScore,
-} from "@/types/objects/v1/score"
-import { MatchSchema, type Match } from "@/types/objects/v1/match"
+} from "@/objects/v1/score"
+import { MatchSchema, type Match } from "@/objects/v1/match"
 import {
   getReplayParamsSchema,
   ReplaySchema,
   type GetReplayOptions,
   type Replay,
-} from "@/types/objects/v1/replay"
+} from "@/objects/v1/replay"
 import { BASE_URL } from "./const"
 
 export class APIv1 extends APIClient {
