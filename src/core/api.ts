@@ -29,7 +29,6 @@ import {
   type GetReplayOptions,
   type Replay,
 } from "@/objects/v1/replay"
-import { version } from "os"
 
 const BASE_URL = "https://osu.ppy.sh/api"
 
