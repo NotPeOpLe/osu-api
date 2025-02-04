@@ -1,24 +1,19 @@
 import { ofetch } from "ofetch"
-import { OAUTH_URL } from "./const"
 import { withQuery } from "ufo"
 
-export enum OAuthScopes {
-  ChatRead = "chat.read",
-  ChatWrite = "chat.write",
-  ChatWriteManage = "chat.write_manage",
-  Delegate = "delegate",
-  ForumWrite = "forum.write",
-  FirendsRead = "friends.read",
-  Identity = "identity",
-  Public = "public",
-}
+export const OAUTH_URL = "https://osu.ppy.sh/oauth"
 
-export enum GrantType {
-  AuthorizationCode = "code",
-  ClientCredentials = "client_credentials",
-  RefreshAccessToken = "refresh_token",
-}
+export type OAuthScopes =
+  | "chat.read"
+  | "chat.write"
+  | "chat.write_manage"
+  | "delegate"
+  | "forum.write"
+  | "friends.read"
+  | "identity"
+  | "public"
 
+export type GrantType = "code" | "client_credentials" | "refresh_token"
 export type AuthorizationCodeToken = {
   access_token: string
   expires_in: number
@@ -79,7 +74,7 @@ export class Client {
    * https://osu.ppy.sh/docs/#client-credentials-grant
    */
   getAccessToken(
-    grantType: GrantType.ClientCredentials,
+    grantType: "client_credentials",
     scope?: OAuthScopes[],
   ): Promise<ClientCredentialsToken>
 
@@ -87,7 +82,7 @@ export class Client {
    * https://osu.ppy.sh/docs/#authorization-code-grant
    */
   getAccessToken(
-    grantType: GrantType.AuthorizationCode,
+    grantType: "code",
     code: string,
     scope?: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>
@@ -98,7 +93,7 @@ export class Client {
    * Access token expires after some time as per `expires_in` field. Refresh the token to get new access token without going through authorization process again.
    */
   getAccessToken(
-    grantType: GrantType.RefreshAccessToken,
+    grantType: "refresh_token",
     refresh_token: string,
     scope?: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>
@@ -115,9 +110,9 @@ export class Client {
     }
 
     if (p1 && typeof p1 === "string") {
-      if (grantType === GrantType.AuthorizationCode) {
+      if (grantType === "code") {
         body.code = p1
-      } else if (grantType === GrantType.RefreshAccessToken) {
+      } else if (grantType === "refresh_token") {
         body.refresh_token = p1
       }
     }
