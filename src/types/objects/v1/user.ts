@@ -1,7 +1,7 @@
-import * as z from "zod";
-import { GameMode } from "./osu";
-import { dateUTC } from "@/utils/zod-utils";
-import { parseUserType } from "./utils";
+import * as z from "zod"
+import { GameMode } from "./osu"
+import { dateUTC } from "@/utils/zod-utils"
+import { parseUserType } from "./utils"
 
 export const UserEventSchema = z.object({
   display_html: z.string(),
@@ -9,7 +9,7 @@ export const UserEventSchema = z.object({
   beatmapset_id: z.coerce.number(),
   date: dateUTC,
   epicfactor: z.coerce.number().min(1).max(32),
-});
+})
 
 export const UserSchema = z
   .object({
@@ -39,7 +39,7 @@ export const UserSchema = z
   .transform((data) => ({
     ...data,
     avatar_url: () => `https://a.ppy.sh/${data.user_id}`,
-  }));
+  }))
 
 const GetUserParamsInterface = z
   .object({
@@ -47,7 +47,7 @@ const GetUserParamsInterface = z
     mode: z.nativeEnum(GameMode),
     event_days: z.coerce.number().min(1).max(31),
   })
-  .partial();
+  .partial()
 
 export const GetUserParamsSchema = GetUserParamsInterface.optional()
   .transform((data) => ({
@@ -55,11 +55,11 @@ export const GetUserParamsSchema = GetUserParamsInterface.optional()
     m: data?.mode,
     event_days: data?.event_days,
   }))
-  .transform(parseUserType);
+  .transform(parseUserType)
 
-export type GetUserParams = z.infer<typeof GetUserParamsInterface>;
-export type GetUserParamsWithoutUser = Omit<GetUserParams, "user">;
+export type GetUserParams = z.infer<typeof GetUserParamsInterface>
+export type GetUserParamsWithoutUser = Omit<GetUserParams, "user">
 
-export type User = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof UserSchema>
 
-export type UserEvent = z.infer<typeof UserEventSchema>;
+export type UserEvent = z.infer<typeof UserEventSchema>

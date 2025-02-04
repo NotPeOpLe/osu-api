@@ -1,7 +1,7 @@
-import * as z from "zod";
-import { GameMode, ApprovedType, Language, Genre } from "./osu";
-import { dateUTC } from "@/utils/zod-utils";
-import { parseUserType } from "./utils";
+import * as z from "zod"
+import { GameMode, ApprovedType, Language, Genre } from "./osu"
+import { dateUTC } from "@/utils/zod-utils"
+import { parseUserType } from "./utils"
 
 export const BeatmapSchema = z
   .object({
@@ -55,7 +55,7 @@ export const BeatmapSchema = z
       `https://assets.ppy.sh/beatmaps/${data.beatmapset_id}/covers/cover.jpg`,
     getCoverThumbnailURL: () =>
       `https://b.ppy.sh/thumb/${data.beatmapset_id}l.jpg`,
-  }));
+  }))
 
 const getBeatmapParamsInterface = z
   .object({
@@ -69,7 +69,7 @@ const getBeatmapParamsInterface = z
     mods: z.number(),
     since: z.string().date(),
   })
-  .partial();
+  .partial()
 
 export const getBeatmapParamsSchema = getBeatmapParamsInterface
   .optional()
@@ -84,11 +84,11 @@ export const getBeatmapParamsSchema = getBeatmapParamsInterface
     mods: data?.mods,
     since: data?.since,
   }))
-  .transform(parseUserType);
+  .transform(parseUserType)
 
-export type Beatmap = z.infer<typeof BeatmapSchema>;
-export type GetBeatmapParams = z.infer<typeof getBeatmapParamsInterface>;
+export type Beatmap = z.infer<typeof BeatmapSchema>
+export type GetBeatmapParams = z.infer<typeof getBeatmapParamsInterface>
 export type GetBeatmapParamsWithoutSpecParams = Omit<
   GetBeatmapParams,
   "beatmapId" | "beatmapSetId" | "user" | "since"
->;
+>

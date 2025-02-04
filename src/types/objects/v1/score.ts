@@ -1,7 +1,7 @@
-import * as z from "zod";
-import { GameMode } from "./osu";
-import { dateUTC } from "@/utils/zod-utils";
-import { parseUserType } from "./utils";
+import * as z from "zod"
+import { GameMode } from "./osu"
+import { dateUTC } from "@/utils/zod-utils"
+import { parseUserType } from "./utils"
 
 export const ScoreSchema = z.object({
   score_id: z.coerce.number(),
@@ -21,7 +21,7 @@ export const ScoreSchema = z.object({
   rank: z.string(),
   pp: z.coerce.number(),
   replay_available: z.coerce.number().transform(Boolean),
-});
+})
 
 export const UserScoreSchema = ScoreSchema.extend({
   score_id: z.coerce.number().nullable(),
@@ -29,7 +29,7 @@ export const UserScoreSchema = ScoreSchema.extend({
   username: true,
   replay_available: true,
   pp: true,
-});
+})
 
 export const getScoresParamsInterface = z.object({
   beatmapId: z.number(),
@@ -37,7 +37,7 @@ export const getScoresParamsInterface = z.object({
   mode: z.nativeEnum(GameMode).optional(),
   mods: z.number().optional(),
   limit: z.number().optional(),
-});
+})
 
 export const getScoresParamsSchema = getScoresParamsInterface
   .partial()
@@ -49,12 +49,12 @@ export const getScoresParamsSchema = getScoresParamsInterface
     mods: data?.mods,
     limit: data?.limit,
   }))
-  .transform(parseUserType);
+  .transform(parseUserType)
 
 const getUserScoreParamsInterface = getScoresParamsInterface.omit({
   beatmapId: true,
   mods: true,
-});
+})
 
 export const getUserScoreParamsSchema = getUserScoreParamsInterface
   .partial()
@@ -64,11 +64,11 @@ export const getUserScoreParamsSchema = getUserScoreParamsInterface
     m: data?.mode,
     limit: data?.limit,
   }))
-  .transform(parseUserType);
+  .transform(parseUserType)
 
-export type GetScoresParams = z.infer<typeof getScoresParamsInterface>;
-export type GetScoresOptions = Omit<GetScoresParams, "beatmapId">;
-export type GetUserScoreParams = z.infer<typeof getUserScoreParamsInterface>;
-export type GetUserScoreOptions = Omit<GetUserScoreParams, "user">;
-export type Score = z.infer<typeof ScoreSchema>;
-export type UserScore = z.infer<typeof UserScoreSchema>;
+export type GetScoresParams = z.infer<typeof getScoresParamsInterface>
+export type GetScoresOptions = Omit<GetScoresParams, "beatmapId">
+export type GetUserScoreParams = z.infer<typeof getUserScoreParamsInterface>
+export type GetUserScoreOptions = Omit<GetUserScoreParams, "user">
+export type Score = z.infer<typeof ScoreSchema>
+export type UserScore = z.infer<typeof UserScoreSchema>

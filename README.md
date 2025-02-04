@@ -18,33 +18,32 @@
 npm install
 ```
 
-
 ## 使用方法
 
 ### OAuthClient
 
 ```javascript
-import { OAuthClient } from "osu-api";
+import { OAuthClient } from "osu-api"
 
 // 示例用法
 const client = new OAuthClient({
   clientId: "your-client-id",
   clientSecret: "your-client-secret",
   redirectUri: "your-redirect-uri",
-});
+})
 ```
 
 ### v1 API
 
 ```javascript
-import { APIv1 } from "osu-api";
+import { APIv1 } from "osu-api"
 
 // 示例用法
-const api = new APIv1("your-api-token");
+const api = new APIv1("your-api-token")
 api
   .getUser({ u: "username" })
   .then((user) => console.log(user))
-  .catch((error) => console.error(error));
+  .catch((error) => console.error(error))
 ```
 
 ## 測試

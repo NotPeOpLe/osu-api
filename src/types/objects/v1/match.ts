@@ -1,6 +1,6 @@
-import * as z from "zod";
-import { GameMode } from "./osu";
-import { dateUTC } from "@/utils/zod-utils";
+import * as z from "zod"
+import { GameMode } from "./osu"
+import { dateUTC } from "@/utils/zod-utils"
 
 export enum Team {
   Blue = 1,
@@ -37,14 +37,14 @@ export const MatchScoreSchema = z.object({
   perfect: z.coerce.number().transform(Boolean),
   pass: z.coerce.number().transform(Boolean),
   enabled_mods: z.number().nullable(),
-});
+})
 
 export const MatchInfoSchema = z.object({
   match_id: z.coerce.number(),
   name: z.string(),
   start_time: dateUTC,
   end_time: dateUTC.nullable(),
-});
+})
 
 export const GameSchema = z.object({
   game_id: z.coerce.number(),
@@ -57,13 +57,13 @@ export const GameSchema = z.object({
   team_type: z.nativeEnum(TeamMode),
   mods: z.coerce.number(),
   scores: z.array(MatchScoreSchema),
-});
+})
 
 export const MatchSchema = z.object({
   match: MatchInfoSchema,
   games: z.array(GameSchema),
-});
+})
 
-export const getMatchParamsSchema = z.number();
+export const getMatchParamsSchema = z.number()
 
-export type Match = z.infer<typeof MatchSchema>;
+export type Match = z.infer<typeof MatchSchema>

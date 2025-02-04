@@ -1,6 +1,6 @@
-import { ofetch } from "ofetch";
-import { OAUTH_URL } from "./const";
-import { withQuery } from "ufo";
+import { ofetch } from "ofetch"
+import { OAUTH_URL } from "./const"
+import { withQuery } from "ufo"
 
 export enum OAuthScopes {
   ChatRead = "chat.read",
@@ -20,51 +20,51 @@ export enum GrantType {
 }
 
 export type AuthorizationCodeToken = {
-  access_token: string;
-  expires_in: number;
-  token_type: "Bearer";
-  refresh_token: string;
-};
+  access_token: string
+  expires_in: number
+  token_type: "Bearer"
+  refresh_token: string
+}
 
 export type ClientCredentialsToken = Omit<
   AuthorizationCodeToken,
   "refresh_token"
->;
+>
 
 type AccessTokenRequestBody = {
-  client_id: number;
-  client_secret: string;
-  grant_type: GrantType;
-  code?: string;
-  refresh_token?: string;
-  scope?: string;
-};
+  client_id: number
+  client_secret: string
+  grant_type: GrantType
+  code?: string
+  refresh_token?: string
+  scope?: string
+}
 
 export class Client {
-  id: number;
-  secret: string;
-  redirectURI: string;
+  id: number
+  secret: string
+  redirectURI: string
 
   constructor({
     id,
     secret,
     redirectURI,
   }: {
-    id: number;
-    secret: string;
-    redirectURI: string;
+    id: number
+    secret: string
+    redirectURI: string
   }) {
-    this.id = id;
-    this.secret = secret;
-    this.redirectURI = redirectURI;
+    this.id = id
+    this.secret = secret
+    this.redirectURI = redirectURI
   }
 
   public buildAuthorizationURL({
     scope,
     state,
   }: {
-    scope: OAuthScopes[];
-    state: string;
+    scope: OAuthScopes[]
+    state: string
   }) {
     return withQuery(`${OAUTH_URL}/authorize`, {
       client_id: this.id,
@@ -72,7 +72,7 @@ export class Client {
       response_type: "code",
       scope: scope.join(" "),
       state,
-    });
+    })
   }
 
   /**
@@ -81,7 +81,7 @@ export class Client {
   getAccessToken(
     grantType: GrantType.ClientCredentials,
     scope?: OAuthScopes[],
-  ): Promise<ClientCredentialsToken>;
+  ): Promise<ClientCredentialsToken>
 
   /**
    * https://osu.ppy.sh/docs/#authorization-code-grant
@@ -90,7 +90,7 @@ export class Client {
     grantType: GrantType.AuthorizationCode,
     code: string,
     scope?: OAuthScopes[],
-  ): Promise<AuthorizationCodeToken>;
+  ): Promise<AuthorizationCodeToken>
 
   /**
    * https://osu.ppy.sh/docs/#authorization-code-grant
@@ -101,7 +101,7 @@ export class Client {
     grantType: GrantType.RefreshAccessToken,
     refresh_token: string,
     scope?: OAuthScopes[],
-  ): Promise<AuthorizationCodeToken>;
+  ): Promise<AuthorizationCodeToken>
 
   public async getAccessToken(
     grantType: GrantType,
@@ -112,27 +112,27 @@ export class Client {
       client_id: this.id,
       client_secret: this.secret,
       grant_type: grantType,
-    };
+    }
 
     if (p1 && typeof p1 === "string") {
       if (grantType === GrantType.AuthorizationCode) {
-        body.code = p1;
+        body.code = p1
       } else if (grantType === GrantType.RefreshAccessToken) {
-        body.refresh_token = p1;
+        body.refresh_token = p1
       }
     }
 
     if (p1 && Array.isArray(p1)) {
-      body.scope = p1.join(" ");
+      body.scope = p1.join(" ")
     }
 
     if (p2) {
-      body.scope = p2.join(" ");
+      body.scope = p2.join(" ")
     }
 
     return ofetch(`${OAUTH_URL}/token`, {
       method: "POST",
       body: body,
-    });
+    })
   }
 }

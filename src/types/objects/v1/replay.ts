@@ -1,11 +1,11 @@
-import * as z from "zod";
-import { GameMode } from "./osu";
-import { parseUserType } from "./utils";
+import * as z from "zod"
+import { GameMode } from "./osu"
+import { parseUserType } from "./utils"
 
 export const ReplaySchema = z.object({
   content: z.string(),
   encoding: z.string(),
-});
+})
 
 export const getReplayParamsInterface = z.object({
   beatmapId: z.number(),
@@ -14,7 +14,7 @@ export const getReplayParamsInterface = z.object({
   spec: z.number().optional(),
   type: z.string().optional(),
   mods: z.number().optional(),
-});
+})
 
 export const getReplayParamsSchema = getReplayParamsInterface
   .partial()
@@ -27,8 +27,8 @@ export const getReplayParamsSchema = getReplayParamsInterface
     t: data?.type,
     mods: data?.mods,
   }))
-  .transform(parseUserType);
+  .transform(parseUserType)
 
-export type GetReplayParams = z.infer<typeof getReplayParamsInterface>;
-export type GetReplayOptions = Omit<GetReplayParams, "beatmapId" | "user">;
-export type Replay = z.infer<typeof ReplaySchema>;
+export type GetReplayParams = z.infer<typeof getReplayParamsInterface>
+export type GetReplayOptions = Omit<GetReplayParams, "beatmapId" | "user">
+export type Replay = z.infer<typeof ReplaySchema>

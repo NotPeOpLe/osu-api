@@ -4,14 +4,14 @@ import {
   type Beatmap,
   type GetBeatmapParams,
   type GetBeatmapParamsWithoutSpecParams,
-} from "@/types/objects/v1/beatmap";
-import { APIClient } from "./base";
+} from "@/types/objects/v1/beatmap"
+import { APIClient } from "./base"
 import {
   type User,
   UserSchema,
   GetUserParamsSchema,
   type GetUserParamsWithoutUser,
-} from "@/types/objects/v1/user";
+} from "@/types/objects/v1/user"
 import {
   getScoresParamsSchema,
   getUserScoreParamsSchema,
@@ -21,19 +21,19 @@ import {
   type GetUserScoreParams,
   type GetUserScoreOptions,
   type UserScore,
-} from "@/types/objects/v1/score";
-import { MatchSchema, type Match } from "@/types/objects/v1/match";
+} from "@/types/objects/v1/score"
+import { MatchSchema, type Match } from "@/types/objects/v1/match"
 import {
   getReplayParamsSchema,
   ReplaySchema,
   type GetReplayOptions,
   type Replay,
-} from "@/types/objects/v1/replay";
-import { BASE_URL } from "./const";
+} from "@/types/objects/v1/replay"
+import { BASE_URL } from "./const"
 
 export class APIv1 extends APIClient {
   constructor(token: string) {
-    super(token, BASE_URL, "query");
+    super(token, BASE_URL, "query")
   }
 
   /**
@@ -47,7 +47,7 @@ export class APIv1 extends APIClient {
   getUser(
     userId: number,
     options?: GetUserParamsWithoutUser,
-  ): Promise<User | undefined>;
+  ): Promise<User | undefined>
 
   /**
    * 獲取用戶信息。
@@ -60,7 +60,7 @@ export class APIv1 extends APIClient {
   getUser(
     username: string,
     options?: GetUserParamsWithoutUser,
-  ): Promise<User | undefined>;
+  ): Promise<User | undefined>
 
   /**
    * 獲取用戶信息。
@@ -74,11 +74,11 @@ export class APIv1 extends APIClient {
     user: string | number,
     options: GetUserParamsWithoutUser,
   ): Promise<User | undefined> {
-    const params = GetUserParamsSchema.parse({ user, ...options });
+    const params = GetUserParamsSchema.parse({ user, ...options })
     const [users] = UserSchema.array().parse(
       await this.request("/get_user", { params }),
-    );
-    return users;
+    )
+    return users
   }
 
   /**
@@ -90,10 +90,10 @@ export class APIv1 extends APIClient {
    * @returns 譜面信息數組。
    */
   public async getBeatmaps(params: GetBeatmapParams): Promise<Beatmap[]> {
-    const query = getBeatmapParamsSchema.parse(params);
+    const query = getBeatmapParamsSchema.parse(params)
     return BeatmapSchema.array().parse(
       await this.request("/get_beatmaps", { query }),
-    );
+    )
   }
 
   /**
@@ -108,7 +108,7 @@ export class APIv1 extends APIClient {
     beatmapId: number,
     options?: GetBeatmapParamsWithoutSpecParams,
   ): Promise<Beatmap | undefined> {
-    return (await this.getBeatmaps({ beatmapId, ...options }))[0];
+    return (await this.getBeatmaps({ beatmapId, ...options }))[0]
   }
 
   /**
@@ -123,7 +123,7 @@ export class APIv1 extends APIClient {
     beatmapSetId: number,
     options?: GetBeatmapParamsWithoutSpecParams,
   ): Promise<Beatmap[]> {
-    return await this.getBeatmaps({ beatmapSetId, ...options });
+    return await this.getBeatmaps({ beatmapSetId, ...options })
   }
 
   /**
@@ -137,7 +137,7 @@ export class APIv1 extends APIClient {
   getUserBeatmaps(
     userId: number,
     options?: GetBeatmapParamsWithoutSpecParams,
-  ): Promise<Beatmap[]>;
+  ): Promise<Beatmap[]>
 
   /**
    * 獲取用戶的譜面信息。
@@ -150,7 +150,7 @@ export class APIv1 extends APIClient {
   getUserBeatmaps(
     username: string,
     options?: GetBeatmapParamsWithoutSpecParams,
-  ): Promise<Beatmap[]>;
+  ): Promise<Beatmap[]>
 
   /**
    * 獲取用戶的譜面信息。
@@ -164,7 +164,7 @@ export class APIv1 extends APIClient {
     user: number | string,
     options?: GetBeatmapParamsWithoutSpecParams,
   ): Promise<Beatmap[]> {
-    return await this.getBeatmaps({ user, ...options });
+    return await this.getBeatmaps({ user, ...options })
   }
 
   /**
@@ -176,10 +176,10 @@ export class APIv1 extends APIClient {
    * @returns 分數信息數組。
    */
   public async getScores(beatmapId: number, options?: GetScoresOptions) {
-    const params = getScoresParamsSchema.parse({ beatmapId, ...options });
+    const params = getScoresParamsSchema.parse({ beatmapId, ...options })
     return ScoreSchema.array().parse(
       await this.request("/get_scores", { params }),
-    );
+    )
   }
 
   /**
@@ -193,7 +193,7 @@ export class APIv1 extends APIClient {
   getUserBest(
     userId: number,
     options?: GetUserScoreOptions,
-  ): Promise<UserScore[]>;
+  ): Promise<UserScore[]>
 
   /**
    * 獲取用戶最佳分數。
@@ -206,7 +206,7 @@ export class APIv1 extends APIClient {
   getUserBest(
     username: string,
     options?: GetUserScoreOptions,
-  ): Promise<UserScore[]>;
+  ): Promise<UserScore[]>
 
   /**
    * 獲取用戶最佳分數。
@@ -220,10 +220,10 @@ export class APIv1 extends APIClient {
     user: string | number,
     options?: GetUserScoreOptions,
   ): Promise<UserScore[]> {
-    const params = getUserScoreParamsSchema.parse({ user, ...options });
+    const params = getUserScoreParamsSchema.parse({ user, ...options })
     return UserScoreSchema.array().parse(
       await this.request("/get_user_best", { params }),
-    );
+    )
   }
 
   /**
@@ -237,7 +237,7 @@ export class APIv1 extends APIClient {
   getUserRecent(
     userId: number,
     options?: GetUserScoreParams,
-  ): Promise<UserScore[]>;
+  ): Promise<UserScore[]>
 
   /**
    * 獲取用戶最近分數。
@@ -250,7 +250,7 @@ export class APIv1 extends APIClient {
   getUserRecent(
     username: string,
     options?: GetUserScoreParams,
-  ): Promise<UserScore[]>;
+  ): Promise<UserScore[]>
 
   /**
    * 獲取用戶最近分數。
@@ -264,10 +264,10 @@ export class APIv1 extends APIClient {
     user: string | number,
     options?: GetUserScoreParams,
   ): Promise<UserScore[]> {
-    const params = getUserScoreParamsSchema.parse({ user, ...options });
+    const params = getUserScoreParamsSchema.parse({ user, ...options })
     return UserScoreSchema.array().parse(
       await this.request("/get_user_recent", { params }),
-    );
+    )
   }
 
   /**
@@ -278,7 +278,7 @@ export class APIv1 extends APIClient {
   public async getMatch(matchId: number): Promise<Match> {
     return MatchSchema.parse(
       await this.request("/get_match", { params: { mp: matchId } }),
-    );
+    )
   }
 
   /**
@@ -294,7 +294,7 @@ export class APIv1 extends APIClient {
     user: string | number,
     options?: GetReplayOptions,
   ): Promise<Replay> {
-    const params = getReplayParamsSchema.parse({ beatmapId, user, ...options });
-    return ReplaySchema.parse(await this.request("/get_replay", { params }));
+    const params = getReplayParamsSchema.parse({ beatmapId, user, ...options })
+    return ReplaySchema.parse(await this.request("/get_replay", { params }))
   }
 }

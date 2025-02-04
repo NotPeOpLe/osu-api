@@ -1,7 +1,7 @@
-import { ofetch } from "ofetch";
+import { ofetch } from "ofetch"
 
 export class APIClient {
-  protected request;
+  protected request
 
   constructor(token: string, baseURL: string, tokenType: "bearer" | "query") {
     this.request = ofetch.create({
@@ -14,8 +14,8 @@ export class APIClient {
           : undefined,
       params: tokenType === "query" ? { k: token } : undefined,
       onResponse: (ctx) => {
-        console.debug(ctx.response._data);
+        console.debug(ctx.response._data)
       },
-    });
+    })
   }
 }
