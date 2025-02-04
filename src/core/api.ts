@@ -1,3 +1,4 @@
+import { ofetch } from "ofetch"
 import {
   BeatmapSchema,
   getBeatmapParamsSchema,
@@ -5,7 +6,6 @@ import {
   type GetBeatmapParams,
   type GetBeatmapParamsWithoutSpecParams,
 } from "@/objects/v1/beatmap"
-import { APIClient } from "./base"
 import {
   type User,
   UserSchema,
@@ -29,9 +29,28 @@ import {
   type GetReplayOptions,
   type Replay,
 } from "@/objects/v1/replay"
-import { BASE_URL } from "./const"
+import { version } from "os"
 
-export class APIv1 extends APIClient {
+const BASE_URL = "https://osu.ppy.sh/api"
+
+class BaseAPIClient {
+  protected request
+
+  constructor(token: string, baseURL: string, tokenType: "bearer" | "query") {
+    this.request = ofetch.create({
+      baseURL,
+      headers:
+        tokenType === "bearer"
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : undefined,
+      params: tokenType === "query" ? { k: token } : undefined,
+    })
+  }
+}
+
+export class APIv1 extends BaseAPIClient {
   constructor(token: string) {
     super(token, BASE_URL, "query")
   }
@@ -296,5 +315,11 @@ export class APIv1 extends APIClient {
   ): Promise<Replay> {
     const params = getReplayParamsSchema.parse({ beatmapId, user, ...options })
     return ReplaySchema.parse(await this.request("/get_replay", { params }))
+  }
+}
+
+export class APIv2 extends BaseAPIClient {
+  constructor(token: string) {
+    super(token, `${BASE_URL}/v2`, "bearer")
   }
 }
