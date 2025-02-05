@@ -41,7 +41,7 @@ export const UserSchema = z
     avatar_url: () => `https://a.ppy.sh/${data.user_id}`,
   }))
 
-const GetUserParamsInterface = z
+const getUserParamsInterface = z
   .object({
     user: z.union([z.string(), z.coerce.number()]),
     mode: z.nativeEnum(GameMode),
@@ -49,7 +49,8 @@ const GetUserParamsInterface = z
   })
   .partial()
 
-export const GetUserParamsSchema = GetUserParamsInterface.optional()
+export const getUserParamsSchema = getUserParamsInterface
+  .optional()
   .transform((data) => ({
     u: data?.user,
     m: data?.mode,
@@ -57,9 +58,7 @@ export const GetUserParamsSchema = GetUserParamsInterface.optional()
   }))
   .transform(parseUserType)
 
-export type GetUserParams = z.infer<typeof GetUserParamsInterface>
-export type GetUserParamsWithoutUser = Omit<GetUserParams, "user">
-
+export type GetUserParams = z.infer<typeof getUserParamsInterface>
+export type GetUserOptions = Omit<GetUserParams, "user">
 export type User = z.infer<typeof UserSchema>
-
 export type UserEvent = z.infer<typeof UserEventSchema>

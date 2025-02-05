@@ -4,13 +4,13 @@ import {
   getBeatmapParamsSchema,
   type Beatmap,
   type GetBeatmapParams,
-  type GetBeatmapParamsWithoutSpecParams,
+  type GetBeatmapOptions,
 } from "@/objects/v1/beatmap"
 import {
   type User,
   UserSchema,
-  GetUserParamsSchema,
-  type GetUserParamsWithoutUser,
+  getUserParamsSchema,
+  type GetUserOptions,
 } from "@/objects/v1/user"
 import {
   getScoresParamsSchema,
@@ -62,10 +62,7 @@ export class APIv1 extends BaseAPIClient {
    * - `event_days` (number): 事件天數。
    * @returns 用戶信息或undefined。
    */
-  getUser(
-    userId: number,
-    options?: GetUserParamsWithoutUser,
-  ): Promise<User | undefined>
+  getUser(userId: number, options?: GetUserOptions): Promise<User | undefined>
 
   /**
    * 獲取用戶信息。
@@ -75,10 +72,7 @@ export class APIv1 extends BaseAPIClient {
    * - `event_days` (number): 事件天數。
    * @returns 用戶信息或undefined。
    */
-  getUser(
-    username: string,
-    options?: GetUserParamsWithoutUser,
-  ): Promise<User | undefined>
+  getUser(username: string, options?: GetUserOptions): Promise<User | undefined>
 
   /**
    * 獲取用戶信息。
@@ -90,9 +84,9 @@ export class APIv1 extends BaseAPIClient {
    */
   public async getUser(
     user: string | number,
-    options: GetUserParamsWithoutUser,
+    options: GetUserOptions,
   ): Promise<User | undefined> {
-    const params = GetUserParamsSchema.parse({ user, ...options })
+    const params = getUserParamsSchema.parse({ user, ...options })
     const [users] = UserSchema.array().parse(
       await this.request("/get_user", { params }),
     )
@@ -124,7 +118,7 @@ export class APIv1 extends BaseAPIClient {
    */
   public async getBeatmap(
     beatmapId: number,
-    options?: GetBeatmapParamsWithoutSpecParams,
+    options?: GetBeatmapOptions,
   ): Promise<Beatmap | undefined> {
     return (await this.getBeatmaps({ beatmapId, ...options }))[0]
   }
@@ -139,7 +133,7 @@ export class APIv1 extends BaseAPIClient {
    */
   public async getBeatmapSet(
     beatmapSetId: number,
-    options?: GetBeatmapParamsWithoutSpecParams,
+    options?: GetBeatmapOptions,
   ): Promise<Beatmap[]> {
     return await this.getBeatmaps({ beatmapSetId, ...options })
   }
@@ -154,7 +148,7 @@ export class APIv1 extends BaseAPIClient {
    */
   getUserBeatmaps(
     userId: number,
-    options?: GetBeatmapParamsWithoutSpecParams,
+    options?: GetBeatmapOptions,
   ): Promise<Beatmap[]>
 
   /**
@@ -167,7 +161,7 @@ export class APIv1 extends BaseAPIClient {
    */
   getUserBeatmaps(
     username: string,
-    options?: GetBeatmapParamsWithoutSpecParams,
+    options?: GetBeatmapOptions,
   ): Promise<Beatmap[]>
 
   /**
@@ -180,7 +174,7 @@ export class APIv1 extends BaseAPIClient {
    */
   public async getUserBeatmaps(
     user: number | string,
-    options?: GetBeatmapParamsWithoutSpecParams,
+    options?: GetBeatmapOptions,
   ): Promise<Beatmap[]> {
     return await this.getBeatmaps({ user, ...options })
   }
@@ -254,7 +248,7 @@ export class APIv1 extends BaseAPIClient {
    */
   getUserRecent(
     userId: number,
-    options?: GetUserScoreParams,
+    options?: GetUserScoreOptions,
   ): Promise<UserScore[]>
 
   /**
@@ -267,7 +261,7 @@ export class APIv1 extends BaseAPIClient {
    */
   getUserRecent(
     username: string,
-    options?: GetUserScoreParams,
+    options?: GetUserScoreOptions,
   ): Promise<UserScore[]>
 
   /**
@@ -280,7 +274,7 @@ export class APIv1 extends BaseAPIClient {
    */
   public async getUserRecent(
     user: string | number,
-    options?: GetUserScoreParams,
+    options?: GetUserScoreOptions,
   ): Promise<UserScore[]> {
     const params = getUserScoreParamsSchema.parse({ user, ...options })
     return UserScoreSchema.array().parse(

@@ -88,7 +88,7 @@ export const getBeatmapParamsSchema = getBeatmapParamsInterface
 
 export type Beatmap = z.infer<typeof BeatmapSchema>
 export type GetBeatmapParams = z.infer<typeof getBeatmapParamsInterface>
-export type GetBeatmapParamsWithoutSpecParams = Omit<
+export type GetBeatmapOptions = Omit<
   GetBeatmapParams,
   "beatmapId" | "beatmapSetId" | "user" | "since"
 >
