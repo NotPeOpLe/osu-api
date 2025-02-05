@@ -29,6 +29,12 @@ import {
   type GetReplayOptions,
   type Replay,
 } from "@/objects/v1/replay"
+import type {
+  GetBeatmapPackOptions,
+  GetBeatmapPackResponse,
+  GetBeatmapPacksOptions,
+  GetBeatmapPacksResponse,
+} from "@/objects/v2/beatmap-pack"
 
 const BASE_URL = "https://osu.ppy.sh/api"
 
@@ -339,8 +345,60 @@ export class APIv1 extends BaseAPIClient {
   }
 }
 
-export class APIv2 extends BaseAPIClient {
+interface APIv2Methods {
+  // Beatmap Pack
+  getBeatmapPacks(
+    options?: GetBeatmapPacksOptions,
+  ): Promise<GetBeatmapPacksResponse>
+  getBeatmapPack(
+    pack: string,
+    options?: GetBeatmapPackOptions,
+  ): Promise<GetBeatmapPackResponse>
+
+  // Beatmap
+  // lookupBeatmap(options?: object): Promise<Beatmap>
+  // getBeatmap(beatmapId: number): Promise<Beatmap>
+  // getBeatmaps(beatmapIds: number[]): Promise<Beatmap[]>
+  // getBeatmapAttributes(beatmapId: number, options?: object): Promise<any>
+  // getBeatmapScores(beatmapId: number, options?: object): Promise<any>
+  // getBeatmapUserScore(
+  //   beatmapId: number,
+  //   userId: number,
+  //   options?: object,
+  // ): Promise<any>
+  // getBeatmapUserScores(
+  //   beatmapId: number,
+  //   userId: number,
+  //   options?: object,
+  // ): Promise<any>
+
+  // // Beatmapset Discussions
+  // getBeatmapsetDiscussionPosts(options?: object): Promise<any>
+  // getBeatmapsetDiscussionVotes(options?: object): Promise<any>
+  // getBeatmapsetDiscussion(options?: object): Promise<any>
+
+  // // Beatmapsets
+  // searchBeatmapset(options?: object): Promise<any>
+  // lookupBeatmapset(options?: object): Promise<any>
+  // getBeatmapset(beatmapsetId: number): Promise<any>
+  // downloadBeatmapset(beatmapsetId: number): Promise<any>
+}
+
+export class APIv2 extends BaseAPIClient implements APIv2Methods {
   constructor(token: string) {
     super(token, `${BASE_URL}/v2`, "bearer")
+  }
+
+  public async getBeatmapPacks(
+    options?: GetBeatmapPacksOptions,
+  ): Promise<GetBeatmapPacksResponse> {
+    return this.request("/beatmaps/packs", { params: options })
+  }
+
+  public async getBeatmapPack(
+    pack: string,
+    options?: GetBeatmapPackOptions,
+  ): Promise<GetBeatmapPackResponse> {
+    return this.request(`/beatmaps/packs/${pack}`, { params: options })
   }
 }
