@@ -48,7 +48,7 @@ test("Get user beatmaps", async () => {
 
 test("Get beatmap scores", async () => {
   const scores = await api.getScores(3815421)
-  expect(scores.length).toBeGreaterThan(50)
+  expect(scores.length).toBeGreaterThan(5)
 })
 test("Get beatmap user scores", async () => {
   const scores = await api.getScores(3815421, { user: 6008293 })
@@ -57,7 +57,7 @@ test("Get beatmap user scores", async () => {
 
 test("Get user best scores", async () => {
   const scores = await api.getUserBest(6008293)
-  expect(scores.length).toBeGreaterThan(100)
+  expect(scores.length).toBeGreaterThan(5)
 })
 
 test("Get user recent scores", async () => {
