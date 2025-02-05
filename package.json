@@ -8,7 +8,8 @@
     "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
-      "default": "./dist/index.cjs"
+      "default": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
@@ -18,7 +19,8 @@
     "test": "vitest run",
     "check-exports": "attw --pack .",
     "lint": "tsc",
-    "dev": "vitest"
+    "dev": "vitest",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "osu"
