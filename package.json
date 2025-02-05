@@ -20,7 +20,7 @@
     "check-exports": "attw --pack .",
     "lint": "tsc",
     "dev": "vitest",
-    "postinstall": "npm run build"
+    "prepare": "npm run build"
   },
   "keywords": [
     "osu"
