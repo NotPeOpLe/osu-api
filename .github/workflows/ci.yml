@@ -41,3 +41,8 @@ jobs:
         run: npm test
         env:
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
+
+      - name: Browser Test
+        run: npm run test:browser
+        env:
+          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
