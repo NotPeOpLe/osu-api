@@ -46,3 +46,8 @@ jobs:
         run: npm run test:browser
         env:
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
+
+      - name: Edge Test
+        run: npm run test:edge
+        env:
+          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
