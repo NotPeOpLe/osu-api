@@ -1,5 +1,4 @@
 import { ofetch } from "ofetch"
-import { withQuery } from "ufo"
 
 export const OAUTH_URL = "https://osu.ppy.sh/oauth"
 
@@ -58,16 +57,16 @@ export class Client {
     scope,
     state,
   }: {
-    scope: OAuthScopes[]
-    state: string
+    scope?: OAuthScopes[]
+    state?: string
   }) {
-    return withQuery(`${OAUTH_URL}/authorize`, {
-      client_id: this.id,
-      redirect_uri: this.redirectURI,
-      response_type: "code",
-      scope: scope.join(" "),
-      state,
-    })
+    const url = new URL(`${OAUTH_URL}/authorize`)
+    url.searchParams.append("client_id", this.id.toString())
+    url.searchParams.append("redirect_uri", this.redirectURI)
+    url.searchParams.append("response_type", "code")
+    scope && url.searchParams.append("scope", scope.join(" "))
+    state && url.searchParams.append("state", state)
+    return url
   }
 
   /**
@@ -75,7 +74,7 @@ export class Client {
    */
   getAccessToken(
     grantType: "client_credentials",
-    scope?: OAuthScopes[],
+    scope: OAuthScopes[],
   ): Promise<ClientCredentialsToken>
 
   /**
@@ -84,7 +83,7 @@ export class Client {
   getAccessToken(
     grantType: "code",
     code: string,
-    scope?: OAuthScopes[],
+    scope: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>
 
   /**
@@ -95,39 +94,59 @@ export class Client {
   getAccessToken(
     grantType: "refresh_token",
     refresh_token: string,
-    scope?: OAuthScopes[],
+    scope: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>
 
   public async getAccessToken(
     grantType: GrantType,
-    p1?: string | OAuthScopes[],
+    p1: string | OAuthScopes[],
     p2?: OAuthScopes[],
   ) {
-    const body: AccessTokenRequestBody = {
-      client_id: this.id,
-      client_secret: this.secret,
-      grant_type: grantType,
-    }
+    const body = new URLSearchParams()
+    body.append("client_id", this.id.toString())
+    body.append("client_secret", this.secret)
+    body.append("grant_type", grantType)
+    // const body: AccessTokenRequestBody = {
+    //   client_id: this.id,
+    //   client_secret: this.secret,
+    //   grant_type: grantType,
+    // }
 
-    if (p1 && typeof p1 === "string") {
+    if (typeof p1 === "string") {
       if (grantType === "code") {
-        body.code = p1
+        body.append("code", p1)
+        // body.code = p1
       } else if (grantType === "refresh_token") {
-        body.refresh_token = p1
+        body.append("refresh_token", p1)
+        // body.refresh_token = p1
       }
-    }
-
-    if (p1 && Array.isArray(p1)) {
-      body.scope = p1.join(" ")
+    } else if (Array.isArray(p1)) {
+      if (p1.length === 0) {
+        throw new Error("Scope is required")
+      }
+      body.append("scope", p1.join(" "))
+      // body.scope = p1.join(" ")
     }
 
     if (p2) {
-      body.scope = p2.join(" ")
+      if (p2.length === 0) {
+        throw new Error("Scope is required")
+      }
+      body.append("scope", p2.join(" "))
+      // body.scope = p2.join(" ")
     }
 
     return ofetch(`${OAUTH_URL}/token`, {
       method: "POST",
-      body: body,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+      },
+      body,
+      onResponseError: async (c) => {
+        console.log(c.request)
+        console.log(c.response._data)
+      },
     })
   }
 }

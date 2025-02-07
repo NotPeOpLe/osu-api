@@ -8,8 +8,7 @@
     "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
-      "default": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.cjs"
     }
   },
   "scripts": {
@@ -20,7 +19,8 @@
     "check-exports": "attw --pack .",
     "lint": "tsc",
     "dev": "vitest",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test:browser": "vitest --workspace=vitest.workspace.ts"
   },
   "keywords": [
     "osu"
@@ -33,13 +33,14 @@
   },
   "dependencies": {
     "ofetch": "^1.4.1",
-    "ufo": "^1.5.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.3",
     "@types/node": "^22.13.1",
+    "@vitest/browser": "^3.0.5",
     "eslint": "^9.19.0",
+    "playwright": "^1.50.1",
     "prettier": "^3.4.2",
     "tsup": "^8.3.6",
     "tsx": "^4.19.2",
