@@ -43,7 +43,7 @@ jobs:
         run: npm run check-format
 
       - name: Test
-        run: npm test
+        run: npm run test:node
 
       - name: Browser Test
         run: npm run test:browser
