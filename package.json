@@ -13,14 +13,15 @@
   },
   "scripts": {
     "build": "tsup",
+    "dev": "vitest --config=vitest.config.ts",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "test": "vitest run",
     "check-exports": "attw --pack .",
     "lint": "tsc",
-    "dev": "vitest",
     "prepare": "npm run build",
-    "test:browser": "vitest --workspace=vitest.workspace.ts"
+    "test:node": "vitest run --environment=node",
+    "test:browser": "vitest run --environment=jsdom",
+    "test:edge": "vitest run --environment=edge-runtime"
   },
   "keywords": [
     "osu"
