@@ -13,6 +13,11 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
+      OSU_CLIENT_ID: ${{ secrets.OSU_CLIENT_ID }}
+      OSU_CLIENT_SECRET: ${{ secrets.OSU_CLIENT_SECRET }}
+      OSU_REDIRECT_URI: ${{ secrets.OSU_REDIRECT_URI }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,15 +44,9 @@ jobs:
 
       - name: Test
         run: npm test
-        env:
-          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
 
       - name: Browser Test
         run: npm run test:browser
-        env:
-          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
 
       - name: Edge Test
         run: npm run test:edge
-        env:
-          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
