@@ -24,8 +24,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-
     "lib": ["es2022", "DOM"],
-    "noEmit": true
+    "noEmit": true,
+    "types": ["@vitest/browser/providers/playwright"]
   }
 }

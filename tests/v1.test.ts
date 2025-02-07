@@ -1,7 +1,7 @@
 import { APIv1, GameMode } from "osu-api"
 import { test, expect } from "vitest"
 
-const api = new APIv1(process.env.OSU_API_KEY!)
+const api = new APIv1(import.meta.env.OSU_API_KEY!)
 
 test("Get user by user_id", async () => {
   const user = await api.getUser(6008293)
