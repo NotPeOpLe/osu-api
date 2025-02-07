@@ -25,11 +25,18 @@ export type BeatmapPack = {
   name: string
   no_diff_reduction: boolean
   ruleset_id: number
-  tag: BeatmapPackType
+  tag: string
   url: string
 }
 
-export type GetBeatmapPacksResponse = BeatmapPack[]
+export type GetBeatmapPacksResponse = {
+  beatmap_packs: BeatmapPack[]
+  cursor: {
+    pack_id: number
+  } | null
+  cursor_string: string | null
+}
+
 export type GetBeatmapPackResponse = BeatmapPack & {
   beatmapsets: Beatmapset[]
   user_completion_data: {

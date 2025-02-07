@@ -389,10 +389,22 @@ export class APIv2 extends BaseAPIClient implements APIv2Methods {
     super(token, `${BASE_URL}/v2`, "bearer")
   }
 
-  public async getBeatmapPacks(
-    options?: GetBeatmapPacksOptions,
-  ): Promise<GetBeatmapPacksResponse> {
-    return this.request("/beatmaps/packs", { params: options })
+  public async getBeatmapPacks(options?: GetBeatmapPacksOptions) {
+    const result = await this.request<GetBeatmapPacksResponse>(
+      "/beatmaps/packs",
+      { params: options },
+    )
+    const next = () => {
+      if (!result.cursor_string) return
+      return this.getBeatmapPacks({
+        ...options,
+        cursor_string: result.cursor_string,
+      })
+    }
+    return {
+      ...result,
+      next,
+    }
   }
 
   public async getBeatmapPack(

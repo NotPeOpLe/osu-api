@@ -7,11 +7,17 @@ describe("Test APIv2", async () => {
     secret: import.meta.env.OSU_CLIENT_SECRET!,
     redirectURI: import.meta.env.OSU_REDIRECT_URI!,
   })
+  const token = await client.getAccessToken("client_credentials", ["public"])
+  const api = new APIv2(token.access_token)
 
-  let api: APIv2
-
-  test("Setup APIv2", async () => {
-    const token = await client.getAccessToken("client_credentials", ["public"])
-    api = new APIv2(token.access_token)
+  test("Get BeatmapPacks", async () => {
+    let beatmapPacks = await api.getBeatmapPacks()
+    while (beatmapPacks) {
+      beatmapPacks = await beatmapPacks.next()
+    }
+  })
+  test("Get BeatmapPacks", async () => {
+    const beatmapPacks = await api.getBeatmapPack("S2")
+    console.log(beatmapPacks)
   })
 })
