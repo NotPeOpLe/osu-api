@@ -1,12 +1,12 @@
 export type BeatmapsetCovers = {
   cover: string
-  cover2x: string
+  "cover@2x": string
   card: string
-  card2x: string
+  "card@2x": string
   list: string
-  list2x: string
+  "list@2x": string
   slimcover: string
-  slimcover2x: string
+  "slimcover@2x": string
 }
 
 export type Beatmapset = {
