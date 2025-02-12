@@ -1,7 +1,7 @@
 import type { Beatmapset } from "./beatmapset"
 
 export type GetBeatmapPacksOptions = {
-  type?: string
+  type?: keyof typeof BeatmapPackType
   cursor_string?: string
 }
 
@@ -35,6 +35,7 @@ export type GetBeatmapPacksResponse = {
     pack_id: number
   } | null
   cursor_string: string | null
+  next: () => Promise<GetBeatmapPacksResponse | null>
 }
 
 export type GetBeatmapPackResponse = BeatmapPack & {

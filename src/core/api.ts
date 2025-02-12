@@ -389,11 +389,10 @@ export class APIv2 extends BaseAPIClient implements APIv2Methods {
     super(token, `${BASE_URL}/v2`, "bearer")
   }
 
-  public async getBeatmapPacks(options?: GetBeatmapPacksOptions) {
-    const result = await this.request<GetBeatmapPacksResponse>(
-      "/beatmaps/packs",
-      { params: options },
-    )
+  public async getBeatmapPacks(
+    options?: GetBeatmapPacksOptions,
+  ): Promise<GetBeatmapPacksResponse> {
+    const result = await this.request("/beatmaps/packs", { params: options })
     const next = () => {
       if (!result.cursor_string) return
       return this.getBeatmapPacks({
@@ -411,6 +410,10 @@ export class APIv2 extends BaseAPIClient implements APIv2Methods {
     pack: string,
     options?: GetBeatmapPackOptions,
   ): Promise<GetBeatmapPackResponse> {
-    return this.request(`/beatmaps/packs/${pack}`, { params: options })
+    return this.request(`/beatmaps/packs/${pack}`, {
+      params: {
+        legacy_only: options?.legacy_only ? +options.legacy_only : undefined,
+      },
+    })
   }
 }

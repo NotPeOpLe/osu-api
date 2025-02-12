@@ -1,5 +1,6 @@
 import { describe, test, expect } from "vitest"
 import { APIv2, Client } from "osu-api"
+import type { GetBeatmapPacksResponse } from "@/objects/v2/beatmap-pack"
 
 describe("Test APIv2", async () => {
   const client = new Client({
@@ -11,13 +12,17 @@ describe("Test APIv2", async () => {
   const api = new APIv2(token.access_token)
 
   test("Get BeatmapPacks", async () => {
-    let beatmapPacks = await api.getBeatmapPacks()
-    while (beatmapPacks) {
+    let beatmapPacks: GetBeatmapPacksResponse | null =
+      await api.getBeatmapPacks({ type: "artist" })
+    console.log(beatmapPacks)
+    do {
       beatmapPacks = await beatmapPacks.next()
-    }
+      console.log(beatmapPacks)
+    } while (beatmapPacks)
   })
-  test("Get BeatmapPacks", async () => {
-    const beatmapPacks = await api.getBeatmapPack("S2")
+
+  test("Get BeatmapPack", async () => {
+    const beatmapPacks = await api.getBeatmapPack("A38", { legacy_only: true })
     console.log(beatmapPacks)
   })
 })
