@@ -1,5 +1,5 @@
 import type { RankStatus, Ruleset } from "../osu"
-import type { Beatmap, BeatmapExtended } from "./beatmap"
+import type { Beatmap, BeatmapExtended, BeatmapIncludes } from "./beatmap"
 
 export type BeatmapsetCovers = {
   cover: string
@@ -39,35 +39,36 @@ export type Nomination = {
   user_id: number
 }
 
-export type BeatmapsetOptional<B extends Beatmap | BeatmapExtended = Beatmap> =
-  {
-    beatmaps: B[]
-    converts: boolean
-    current_nominations: Nomination[]
-    current_user_attributes: unknown
-    description: unknown
-    discussions: unknown
-    events: unknown
-    genre: unknown
-    has_favourited: boolean
-    language: unknown
-    nominations: unknown
-    pack_tags: string[]
-    ratings: unknown
-    recent_favourites: unknown
-    related_users: unknown
-    user: unknown
-    track_id: number
-  }
+export type BeatmapsetOptional<
+  B extends Beatmap | BeatmapIncludes | BeatmapExtended = Beatmap,
+> = {
+  beatmaps: B[]
+  converts: boolean
+  current_nominations: Nomination[]
+  current_user_attributes: unknown
+  description: unknown
+  discussions: unknown
+  events: unknown
+  genre: unknown
+  has_favourited: boolean
+  language: unknown
+  nominations: unknown
+  pack_tags: string[]
+  ratings: number[]
+  recent_favourites: unknown
+  related_users: unknown
+  user: unknown
+  track_id: number
+}
 
 export type BeatmapsetIncludes<
   T extends keyof BeatmapsetOptional<B> = never,
-  B extends Beatmap | BeatmapExtended = Beatmap,
+  B extends Beatmap | BeatmapIncludes | BeatmapExtended = Beatmap,
 > = Beatmapset & Pick<BeatmapsetOptional<B>, T>
 
 export type BeatmapsetExtended<
   T extends keyof BeatmapsetOptional<B> = never,
-  B extends Beatmap | BeatmapExtended = Beatmap,
+  B extends Beatmap | BeatmapIncludes | BeatmapExtended = Beatmap,
 > = BeatmapsetIncludes<T, B> & {
   availability: {
     download_disabled: boolean
@@ -87,7 +88,11 @@ export type BeatmapsetExtended<
   legacy_thread_url: string | null
   nominations_summary: {
     current: number
-    required: number
+    eligible_main_rulesets: Ruleset[]
+    required_meta: {
+      main_ruleset: number
+      non_main_ruleset: number
+    }
   }
   ranked: RankStatus
   ranked_date: string | null

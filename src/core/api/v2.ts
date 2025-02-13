@@ -7,7 +7,10 @@ import type {
 import { BaseAPIClient } from "./base"
 import { BASE_URL } from "@/utils/consts"
 import type { BeatmapExtended } from "@/objects/v2/beatmap"
-import type { BeatmapsetIncludes } from "@/objects/v2/beatmapset"
+import type {
+  BeatmapsetExtended,
+  BeatmapsetIncludes,
+} from "@/objects/v2/beatmapset"
 
 export class APIv2 extends BaseAPIClient {
   constructor(token: string) {
@@ -51,7 +54,7 @@ export class APIv2 extends BaseAPIClient {
   ): Promise<
     BeatmapExtended<
       "beatmapset" | "failtimes" | "max_combo",
-      BeatmapsetIncludes<"ratings">
+      BeatmapsetExtended<"ratings">
     >
   > {
     return this.request(`/beatmaps/${beatmapId}`)

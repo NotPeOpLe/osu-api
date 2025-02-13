@@ -25,5 +25,7 @@ describe("Test APIv2", async () => {
 
   test("Get Beatmap", async () => {
     const beatmap = await api.getBeatmap(4674472)
+    console.log(beatmap)
+    console.log(beatmap.beatmapset?.nominations_summary)
   })
 })
