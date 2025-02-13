@@ -6,6 +6,8 @@ import type {
 
 import { BaseAPIClient } from "./base"
 import { BASE_URL } from "@/utils/consts"
+import type { BeatmapExtended } from "@/objects/v2/beatmap"
+import type { BeatmapsetIncludes } from "@/objects/v2/beatmapset"
 
 export class APIv2 extends BaseAPIClient {
   constructor(token: string) {
@@ -42,5 +44,27 @@ export class APIv2 extends BaseAPIClient {
           options?.legacy_only !== undefined ? +options.legacy_only : undefined,
       },
     })
+  }
+
+  public async getBeatmap(
+    beatmapId: number,
+  ): Promise<
+    BeatmapExtended<
+      "beatmapset" | "failtimes" | "max_combo",
+      BeatmapsetIncludes<"ratings">
+    >
+  > {
+    return this.request(`/beatmaps/${beatmapId}`)
+  }
+
+  public async getBeatmaps(
+    ids: number[],
+  ): Promise<
+    BeatmapExtended<
+      "beatmapset" | "failtimes" | "max_combo" | "owners",
+      BeatmapsetIncludes<"ratings">
+    >[]
+  > {
+    return this.request("/beatmaps", { params: { ids: ids.join(",") } })
   }
 }

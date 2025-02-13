@@ -1,6 +1,3 @@
-import { z } from "zod"
-
-export const GameModeStr = ["osu", "taiko", "fruits", "mania"] as const
 export enum GameMode {
   osu,
   taiko,
@@ -8,6 +5,16 @@ export enum GameMode {
   mania,
 }
 
-export const zodGameModeInt = z
-  .nativeEnum(GameMode)
-  .or(z.enum(GameModeStr).transform((mode) => GameMode[mode]))
+export type Ruleset = keyof typeof GameMode
+
+export enum RankStatus {
+  graveyard = -2,
+  wip = -1,
+  pending = 0,
+  ranked = 1,
+  approved = 2,
+  qualified = 3,
+  loved = 4,
+}
+
+export type RankStatusType = keyof typeof RankStatus
