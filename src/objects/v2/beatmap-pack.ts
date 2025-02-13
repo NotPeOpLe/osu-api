@@ -1,14 +1,5 @@
 import type { Beatmapset } from "./beatmapset"
 
-export type GetBeatmapPacksOptions = {
-  type?: keyof typeof BeatmapPackType
-  cursor_string?: string
-}
-
-export type GetBeatmapPackOptions = {
-  legacy_only?: boolean
-}
-
 export enum BeatmapPackType {
   standard = "S",
   featured = "F",
