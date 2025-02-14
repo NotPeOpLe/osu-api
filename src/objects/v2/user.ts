@@ -89,8 +89,8 @@ type UserStatistics = {
 }
 
 type UserStatisticsOtpional = {
-    rank_change_since_30_days: number |null
-    user: User
+  rank_change_since_30_days: number | null
+  user: User
 }
 
 type UserStatisticsRulesets = {}

@@ -91,7 +91,7 @@ export class APIv2 extends BaseAPIClient {
     options?: {
       mode?: number | string[]
       ruleset?: R
-    }
+    },
   ): Promise<BeatmapDifficultyAttributes<R>> {
     return this.request<{
       attributes: BeatmapDifficultyAttributes<R>
@@ -100,7 +100,7 @@ export class APIv2 extends BaseAPIClient {
       body: JSON.stringify({
         mode: options?.mode,
         ruleset: options?.ruleset,
-      })
+      }),
     }).then((res) => res.attributes)
   }
 }

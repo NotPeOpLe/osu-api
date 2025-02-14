@@ -14,26 +14,32 @@ export type OsuBeatmapDifficultyAttributes = BaseBeatmapDifficultyAttributes & {
   speed_difficulty: number
 }
 
-export type TaikoBeatmapDifficultyAttributes = BaseBeatmapDifficultyAttributes & {
-  stamina_difficulty: number
-  rhythm_difficulty: number
-  colour_difficulty: number
-  approach_rate: number
-  great_hit_window: number
-}
+export type TaikoBeatmapDifficultyAttributes =
+  BaseBeatmapDifficultyAttributes & {
+    stamina_difficulty: number
+    rhythm_difficulty: number
+    colour_difficulty: number
+    approach_rate: number
+    great_hit_window: number
+  }
 
-export type FruitsBeatmapDifficultyAttributes = BaseBeatmapDifficultyAttributes & {
-  approach_rate: number
-}
+export type FruitsBeatmapDifficultyAttributes =
+  BaseBeatmapDifficultyAttributes & {
+    approach_rate: number
+  }
 
-export type ManiaBeatmapDifficultyAttributes = BaseBeatmapDifficultyAttributes & {
-  great_hit_window: number
-  score_multiplier: number
-}
+export type ManiaBeatmapDifficultyAttributes =
+  BaseBeatmapDifficultyAttributes & {
+    great_hit_window: number
+    score_multiplier: number
+  }
 
-export type BeatmapDifficultyAttributes<T extends RulesetStr> = T extends RulesetStr ? {
-  osu: OsuBeatmapDifficultyAttributes
-  taiko: TaikoBeatmapDifficultyAttributes
-  fruits: FruitsBeatmapDifficultyAttributes
-  mania: ManiaBeatmapDifficultyAttributes
-}[T] : BaseBeatmapDifficultyAttributes
+export type BeatmapDifficultyAttributes<T extends RulesetStr> =
+  T extends RulesetStr
+    ? {
+        osu: OsuBeatmapDifficultyAttributes
+        taiko: TaikoBeatmapDifficultyAttributes
+        fruits: FruitsBeatmapDifficultyAttributes
+        mania: ManiaBeatmapDifficultyAttributes
+      }[T]
+    : BaseBeatmapDifficultyAttributes

@@ -1,8 +1,8 @@
 import type { Score } from "./score"
 
 export type MultiplayerScoresCursor = {
-    score_id: number
-    total_score: number
+  score_id: number
+  total_score: number
 }
 
 export type MultiplayerScoresSort = "score_asc" | "score_desc"
@@ -16,6 +16,6 @@ export type MultiplayerScores = {
 }
 
 export type MultiplayerScoresAround = {
-    higher: MultiplayerScores
-    lower: MultiplayerScores
+  higher: MultiplayerScores
+  lower: MultiplayerScores
 }

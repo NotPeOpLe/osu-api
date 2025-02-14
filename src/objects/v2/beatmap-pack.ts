@@ -28,7 +28,8 @@ export type BeatmapPackOptional = {
   }
 }
 
-export type BeatmapPackIncludes<T extends keyof BeatmapPackOptional = never> = BeatmapPack & Pick<BeatmapPackOptional, T>
+export type BeatmapPackIncludes<T extends keyof BeatmapPackOptional = never> =
+  BeatmapPack & Pick<BeatmapPackOptional, T>
 
 export type BeatmapPacks = {
   beatmap_packs: BeatmapPack[]
@@ -38,4 +39,3 @@ export type BeatmapPacks = {
   cursor_string: string | null
   next: () => Promise<BeatmapPacks | null>
 }
-

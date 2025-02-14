@@ -38,16 +38,17 @@ export type Score = {
 }
 
 export type ScoreOptional = {
-    beatmap: Beatmap
-    beatmapset: Beatmapset
-    current_user_attributes: number | null	
-    match: unknown // Only for legacy match score
-    position: number | null // Only for multiplayer score
-    rank_country: unknown
-    rank_global: unknown
-    scores_around: MultiplayerScoresAround | null //Scores around the specified score. Only for multiplayer score
-    user: unknown
-    weight: unknown
+  beatmap: Beatmap
+  beatmapset: Beatmapset
+  current_user_attributes: number | null
+  match: unknown // Only for legacy match score
+  position: number | null // Only for multiplayer score
+  rank_country: unknown
+  rank_global: unknown
+  scores_around: MultiplayerScoresAround | null //Scores around the specified score. Only for multiplayer score
+  user: unknown
+  weight: unknown
 }
 
-export type ScoreIncludes<T extends keyof ScoreOptional = never> = Score & Pick<ScoreOptional, T>
+export type ScoreIncludes<T extends keyof ScoreOptional = never> = Score &
+  Pick<ScoreOptional, T>
