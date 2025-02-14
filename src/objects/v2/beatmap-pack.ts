@@ -20,19 +20,22 @@ export type BeatmapPack = {
   url: string
 }
 
-export type GetBeatmapPacksResponse = {
-  beatmap_packs: BeatmapPack[]
-  cursor: {
-    pack_id: number
-  } | null
-  cursor_string: string | null
-  next: () => Promise<GetBeatmapPacksResponse | null>
-}
-
-export type GetBeatmapPackResponse = BeatmapPack & {
+export type BeatmapPackOptional = {
   beatmapsets: Beatmapset[]
   user_completion_data: {
     beatmapset_ids: number[]
     completed: boolean
   }
 }
+
+export type BeatmapPackIncludes<T extends keyof BeatmapPackOptional = never> = BeatmapPack & Pick<BeatmapPackOptional, T>
+
+export type BeatmapPacks = {
+  beatmap_packs: BeatmapPack[]
+  cursor: {
+    pack_id: number
+  } | null
+  cursor_string: string | null
+  next: () => Promise<BeatmapPacks | null>
+}
+

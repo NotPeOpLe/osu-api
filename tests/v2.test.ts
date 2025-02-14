@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 import { APIv2, Client } from "osu-api"
-import type { GetBeatmapPacksResponse } from "@/objects/v2/beatmap-pack"
+import type { BeatmapPacks } from "@/objects/v2/beatmap-pack"
 
 describe("Test APIv2", async () => {
   const client = new Client({
@@ -12,7 +12,7 @@ describe("Test APIv2", async () => {
   const api = new APIv2(token.access_token)
 
   test("Get BeatmapPacks", async () => {
-    let beatmapPacks: GetBeatmapPacksResponse | null =
+    let beatmapPacks: BeatmapPacks | null =
       await api.getBeatmapPacks({ type: "artist" })
     console.log(beatmapPacks)
     do {

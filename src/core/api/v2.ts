@@ -1,7 +1,7 @@
 import type {
+  BeatmapPackIncludes,
   BeatmapPackType,
-  GetBeatmapPackResponse,
-  GetBeatmapPacksResponse,
+  BeatmapPacks,
 } from "@/objects/v2/beatmap-pack"
 
 import { BaseAPIClient } from "./base"
@@ -22,7 +22,7 @@ export class APIv2 extends BaseAPIClient {
   public async getBeatmapPacks(options?: {
     type?: keyof typeof BeatmapPackType
     cursor_string?: string
-  }): Promise<GetBeatmapPacksResponse> {
+  }): Promise<BeatmapPacks> {
     const result = await this.request("/beatmaps/packs", { params: options })
     const next = async () => {
       if (!result.cursor_string) return null
@@ -42,7 +42,7 @@ export class APIv2 extends BaseAPIClient {
     options?: {
       legacy_only?: boolean
     },
-  ): Promise<GetBeatmapPackResponse> {
+  ): Promise<BeatmapPackIncludes<"beatmapsets" | "user_completion_data">> {
     return this.request(`/beatmaps/packs/${pack}`, {
       params: {
         legacy_only:
