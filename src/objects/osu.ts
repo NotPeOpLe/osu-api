@@ -1,11 +1,11 @@
-export enum GameMode {
+export enum RulesetInt {
   osu,
   taiko,
   fruits,
   mania,
 }
 
-export type Ruleset = keyof typeof GameMode
+export type RulesetStr = keyof typeof RulesetInt
 
 export enum RankStatus {
   graveyard = -2,

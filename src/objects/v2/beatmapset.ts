@@ -1,4 +1,4 @@
-import type { RankStatus, Ruleset } from "../osu"
+import type { RankStatus, RulesetStr } from "../osu"
 import type { Beatmap, BeatmapExtended, BeatmapIncludes } from "./beatmap"
 
 export type BeatmapsetCovers = {
@@ -34,7 +34,7 @@ export type Beatmapset = {
 
 export type Nomination = {
   beatmapset_id: number
-  rulesets: Ruleset[]
+  rulesets: RulesetStr[]
   reset: boolean
   user_id: number
 }
@@ -88,7 +88,7 @@ export type BeatmapsetExtended<
   legacy_thread_url: string | null
   nominations_summary: {
     current: number
-    eligible_main_rulesets: Ruleset[]
+    eligible_main_rulesets: RulesetStr[]
     required_meta: {
       main_ruleset: number
       non_main_ruleset: number

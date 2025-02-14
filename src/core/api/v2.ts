@@ -11,6 +11,8 @@ import type {
   BeatmapsetExtended,
   BeatmapsetIncludes,
 } from "@/objects/v2/beatmapset"
+import type { RulesetInt, RulesetStr } from "@/objects/osu"
+import type { BeatmapDifficultyAttributes } from "@/objects/v2/beatmap-attributes"
 
 export class APIv2 extends BaseAPIClient {
   constructor(token: string) {
@@ -49,6 +51,19 @@ export class APIv2 extends BaseAPIClient {
     })
   }
 
+  public async lookupBeatmap(options?: {
+    checksum?: string
+    filename?: string
+    id?: number
+  }): Promise<
+    BeatmapExtended<
+      "beatmapset" | "failtimes" | "max_combo",
+      BeatmapsetExtended<"ratings">
+    >
+  > {
+    return this.request("/beatmaps/lookup", { query: options })
+  }
+
   public async getBeatmap(
     beatmapId: number,
   ): Promise<
@@ -69,5 +84,23 @@ export class APIv2 extends BaseAPIClient {
     >[]
   > {
     return this.request("/beatmaps", { params: { ids: ids.join(",") } })
+  }
+
+  public async getBeatmapAttributes<R extends RulesetStr>(
+    beatmapId: number,
+    options?: {
+      mode?: number | string[]
+      ruleset?: R
+    }
+  ): Promise<BeatmapDifficultyAttributes<R>> {
+    return this.request<{
+      attributes: BeatmapDifficultyAttributes<R>
+    }>(`/beatmaps/${beatmapId}/attributes`, {
+      method: "POST",
+      body: JSON.stringify({
+        mode: options?.mode,
+        ruleset: options?.ruleset,
+      })
+    }).then((res) => res.attributes)
   }
 }

@@ -1,4 +1,4 @@
-import type { Ruleset, RankStatusType, GameMode, RankStatus } from "../osu"
+import type { RulesetStr, RankStatusType, RulesetInt, RankStatus } from "../osu"
 import type {
   Beatmapset,
   BeatmapsetExtended,
@@ -19,7 +19,7 @@ export type Beatmap = {
   beatmapset_id: number
   difficulty_rating: number
   id: number
-  mode: Ruleset
+  mode: RulesetStr
   status: RankStatusType
   total_length: number
   user_id: number
@@ -59,7 +59,7 @@ export type BeatmapExtended<
   hit_length: number
   is_scoreable: boolean
   last_updated: string
-  mode_int: GameMode
+  mode_int: RulesetInt
   passcount: number
   playcount: number
   ranked: RankStatus
