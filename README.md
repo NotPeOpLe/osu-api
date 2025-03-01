@@ -12,10 +12,10 @@
 
 ## 安裝
 
-要安裝依賴項，請運行：
+還沒發佈，所以安裝時會先編碼
 
 ```bash
-npm install
+npm install NotPeOpLe/osu-api
 ```
 
 ## 使用方法
@@ -44,14 +44,6 @@ api
   .getUser({ u: "username" })
   .then((user) => console.log(user))
   .catch((error) => console.error(error))
-```
-
-## 測試
-
-要運行測試，請使用：
-
-```bash
-pnpm test
 ```
 
 ## 貢獻
