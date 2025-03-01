@@ -1,6 +1,6 @@
 {
   "name": "osu-api",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "使用zod、unjs等工具構建的osu!api工具",
   "type": "module",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
     "check-format": "prettier --check .",
     "check-exports": "attw --pack .",
     "lint": "tsc",
-    "prepare": "npm run build",
+    "prepare": "tsup",
     "test:node": "vitest run --environment=node",
     "test:browser": "vitest run --environment=jsdom",
     "test:edge": "vitest run --environment=edge-runtime"
