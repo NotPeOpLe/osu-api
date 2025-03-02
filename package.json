@@ -1,6 +1,6 @@
 {
   "name": "osu-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "使用zod、unjs等工具構建的osu!api工具",
   "type": "module",
   "main": "dist/index.js",
