@@ -104,6 +104,38 @@ type ProfilePage =
   | "top_ranks"
   | "medals"
 
+type DailyChallengeUserStats = {
+  daily_streak_best: number
+  daily_streak_current: number
+  last_update: string
+  last_weekly_streak: string
+  playcount: number
+  top_10p_placements: number
+  top_50p_placements: number
+  user_id: number
+  weekly_streak_best: number
+  weekly_streak_current: number
+}
+
+type UserAchievement = { achieved_at: string; achievement_id: number }
+
+type RankHistory = {
+  mode: RulesetStr
+  data: number[]
+}
+
+type ReplaysWatchedCount = {
+  start_date: string
+  count: number
+}
+
+type Team = {
+  flag_url: string
+  id: number
+  name: string
+  short_name: string
+}
+
 export type UserOptional = {
   account_history: UserAccountHistory[]
   active_tournament_banner: ProfileBanner | null //Deprecated, use active_tournament_banners instead.
@@ -111,8 +143,14 @@ export type UserOptional = {
   badges: UserBadge[]
   beatmap_playcounts_count: number
   blocks: unknown
-  country: unknown
-  cover: unknown
+  country: { code: string; name: string }
+  cover: {
+    custom_url: string | null
+    url: string
+    id: string | null
+  }
+  comments_count: number
+  daily_challenge_user_stats: DailyChallengeUserStats
   favourite_beatmapset_count: number
   follow_user_mapping: number[]
   follower_count: number
@@ -125,23 +163,26 @@ export type UserOptional = {
   loved_beatmapset_count: number
   mapping_follower_count: number
   monthly_playcounts: UserMonthlyPlaycount[]
-  page: unknown
-  pending_beatmapset_count: unknown
-  previous_usernames: unknown
+  page: { html: string; raw: string }
+  pending_beatmapset_count: number
+  previous_usernames: string[]
   rank_highest: RankHighest | null
-  rank_history: unknown
-  ranked_beatmapset_count: unknown
-  replays_watched_counts: unknown
+  rank_history: RankHistory
+  ranked_beatmapset_count: number
+  replays_watched_counts: ReplaysWatchedCount[]
   scores_best_count: number
   scores_first_count: number
   scores_recent_count: number
   session_verified: boolean
   statistics: UserStatistics
   statistics_rulesets: UserStatisticsRulesets
-  support_level: unknown
+  support_level: number
+  team: Team | null
   unread_pm_count: unknown
-  user_achievements: unknown
+  user_achievements: UserAchievement[]
   user_preferences: unknown
+  ranked_and_approved_beatmapset_count: number
+  unranked_beatmapset_count: number
 }
 
 export type UserIncludes<T extends keyof UserOptional = never> = User &

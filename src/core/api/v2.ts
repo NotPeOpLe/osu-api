@@ -13,6 +13,7 @@ import type {
 } from "@/objects/v2/beatmapset"
 import type { RulesetInt, RulesetStr } from "@/objects/osu"
 import type { BeatmapDifficultyAttributes } from "@/objects/v2/beatmap-attributes"
+import type { UserExtended } from "@/objects/v2/user"
 
 export class APIv2 extends BaseAPIClient {
   constructor(token: string) {
@@ -102,5 +103,78 @@ export class APIv2 extends BaseAPIClient {
         ruleset: options?.ruleset,
       }),
     }).then((res) => res.attributes)
+  }
+
+  public async getOwnData(mode?: RulesetStr): Promise<
+    UserExtended<
+      | "account_history"
+      | "active_tournament_banner"
+      | "badges"
+      | "beatmap_playcounts_count"
+      | "favourite_beatmapset_count"
+      | "graveyard_beatmapset_count"
+      | "groups"
+      | "loved_beatmapset_count"
+      | "mapping_follower_count"
+      | "monthly_playcounts"
+      | "page"
+      | "pending_beatmapset_count"
+      | "previous_usernames"
+      | "rank_highest"
+      | "rank_history"
+      | "ranked_beatmapset_count"
+      | "replays_watched_counts"
+      | "scores_best_count"
+      | "scores_first_count"
+      | "scores_recent_count"
+      | "statistics"
+      // | "statistics.country_rank"
+      // | "statistics.rank"
+      // | "statistics.variants"
+      | "support_level"
+      | "user_achievements"
+    >
+  > {
+    return this.request(`/me/${mode ?? ""}`)
+  }
+
+  public async getUser(
+    user: number | string,
+    mode?: RulesetStr,
+  ): Promise<
+    UserExtended<
+      | "account_history"
+      | "active_tournament_banner"
+      | "badges"
+      | "beatmap_playcounts_count"
+      | "favourite_beatmapset_count"
+      | "graveyard_beatmapset_count"
+      | "groups"
+      | "loved_beatmapset_count"
+      | "mapping_follower_count"
+      | "monthly_playcounts"
+      | "page"
+      | "pending_beatmapset_count"
+      | "previous_usernames"
+      | "rank_highest"
+      | "rank_history"
+      | "ranked_beatmapset_count"
+      | "replays_watched_counts"
+      | "scores_best_count"
+      | "scores_first_count"
+      | "scores_recent_count"
+      | "statistics"
+      // | "statistics.country_rank"
+      // | "statistics.rank"
+      // | "statistics.variants"
+      | "support_level"
+      | "user_achievements"
+    >
+  > {
+    return this.request(`/users/${user}/${mode ?? ""}`, {
+      query: {
+        key: typeof user === "number" ? "id" : "username",
+      },
+    })
   }
 }

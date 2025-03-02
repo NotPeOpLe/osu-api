@@ -26,4 +26,8 @@ describe("Test APIv2", async () => {
     const beatmapPacks = await api.getBeatmapPack("A38", { legacy_only: true })
     console.log(beatmapPacks)
   })
+
+  test("Get User", async () => {
+    const user = await api.getUser(9449165)
+  })
 })
