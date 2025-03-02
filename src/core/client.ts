@@ -9,7 +9,7 @@ export type OAuthScopes =
   | "delegate"
   | "forum.write"
   | "friends.read"
-  | "identity"
+  | "identify"
   | "public"
 
 export type GrantType = "code" | "client_credentials" | "refresh_token"
