@@ -1,4 +1,5 @@
 import { ofetch } from "ofetch"
+import { b } from "vitest/dist/chunks/suite.BJU7kdY9.js"
 
 export const OAUTH_URL = "https://osu.ppy.sh/oauth"
 
@@ -118,6 +119,7 @@ export class Client {
     if (typeof p1 === "string") {
       if (grantType === "authorization_code") {
         body.append("code", p1)
+        body.append("redirect_uri", this.redirectURI)
         // body.code = p1
       } else if (grantType === "refresh_token") {
         body.append("refresh_token", p1)
