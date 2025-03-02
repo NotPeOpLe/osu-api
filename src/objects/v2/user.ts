@@ -86,6 +86,9 @@ type UserStatistics = {
   replays_watched_by_others: number
   total_hits: number
   total_score: number
+  rank?: {
+    country: number | null
+  }
 }
 
 type UserStatisticsOtpional = {
