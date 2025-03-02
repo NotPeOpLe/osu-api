@@ -12,7 +12,10 @@ export type OAuthScopes =
   | "identify"
   | "public"
 
-export type GrantType = "code" | "client_credentials" | "refresh_token"
+export type GrantType =
+  | "authorization_code"
+  | "client_credentials"
+  | "refresh_token"
 export type AuthorizationCodeToken = {
   access_token: string
   expires_in: number
@@ -81,7 +84,7 @@ export class Client {
    * https://osu.ppy.sh/docs/#authorization-code-grant
    */
   getAccessToken(
-    grantType: "code",
+    grantType: "authorization_code",
     code: string,
     scope: OAuthScopes[],
   ): Promise<AuthorizationCodeToken>
@@ -113,7 +116,7 @@ export class Client {
     // }
 
     if (typeof p1 === "string") {
-      if (grantType === "code") {
+      if (grantType === "authorization_code") {
         body.append("code", p1)
         // body.code = p1
       } else if (grantType === "refresh_token") {
