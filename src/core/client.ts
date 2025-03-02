@@ -1,5 +1,4 @@
 import { ofetch } from "ofetch"
-import { b } from "vitest/dist/chunks/suite.BJU7kdY9.js"
 
 export const OAUTH_URL = "https://osu.ppy.sh/oauth"
 
